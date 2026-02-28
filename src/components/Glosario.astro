@@ -1,0 +1,157 @@
+---
+import conceptosData from '../../public/conceptos.json';
+
+const classes = [...new Set(conceptosData.map(c => c.clase))].sort((a, b) => a - b);
+---
+
+<div class="max-w-6xl mx-auto px-4 py-8" id="glosario-container">
+    <div class="mb-10 text-center">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 tracking-tight">Glosario Maestro de Recursos Humanos</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto italic">Explora los términos fundamentales de la gestión del talento humano.</p>
+    </div>
+
+    <!-- Filtros y Buscador -->
+    <div class="flex flex-col md:flex-row gap-4 mb-8 sticky top-4 z-10 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-sm border border-gray-100">
+        <div class="flex-1 relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </span>
+            <input 
+                type="text" 
+                id="search-input" 
+                placeholder="Buscar término..." 
+                class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+            />
+        </div>
+        <div class="flex gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+            <button class="filter-btn active px-4 py-2 rounded-xl text-sm font-medium transition-all" data-clase="all">
+                Todas
+            </button>
+            {classes.map(clase => (
+                <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium transition-all" data-clase={clase}>
+                    Clase {clase}
+                </button>
+            ))}
+        </div>
+    </div>
+
+    <!-- Lista de Conceptos -->
+    <div id="concept-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {conceptosData.map(c => (
+            <div 
+                class="concept-card bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 group"
+                data-termino={c.termino.toLowerCase()}
+                data-definicion={c.definicion.toLowerCase()}
+                data-clase={c.clase}
+            >
+                <div class="flex justify-between items-start mb-3">
+                    <span class={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${
+                        c.clase === 1 ? 'bg-blue-100 text-blue-700' :
+                        c.clase === 2 ? 'bg-purple-100 text-purple-700' :
+                        c.clase === 3 ? 'bg-green-100 text-green-700' :
+                        c.clase === 4 ? 'bg-orange-100 text-orange-700' :
+                        'bg-gray-100 text-gray-700'
+                    }`}>
+                        Clase {c.clase}
+                    </span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2 italic">
+                    {c.termino}
+                </h3>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    {c.definicion}
+                </p>
+            </div>
+        ))}
+    </div>
+
+    <div id="no-results" class="hidden text-center py-20 grayscale opacity-50">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-xl font-bold text-gray-800">No se encontraron conceptos</h3>
+        <p class="text-gray-500 mt-2">Prueba ajustando tu búsqueda o filtros.</p>
+    </div>
+</div>
+
+<style>
+    .filter-btn {
+        background: #f3f4f6;
+        color: #4b5563;
+    }
+    .filter-btn:hover {
+        background: #e5e7eb;
+    }
+    .filter-btn.active {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 4px 6px -1px rgb(37 99 235 / 0.2);
+    }
+    
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .concept-card {
+        border-top: 4px solid transparent;
+    }
+    .concept-card[data-clase="1"] { border-top-color: #3b82f6; }
+    .concept-card[data-clase="2"] { border-top-color: #a855f7; }
+    .concept-card[data-clase="3"] { border-top-color: #22c55e; }
+    .concept-card[data-clase="4"] { border-top-color: #f97316; }
+</style>
+
+<script>
+    function setupGlosario() {
+        const searchInput = document.getElementById('search-input') as HTMLInputElement;
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const conceptCards = document.querySelectorAll('.concept-card');
+        const noResults = document.getElementById('no-results');
+
+        let currentSearch = '';
+        let currentFilter = 'all';
+
+        function filter() {
+            let visibleCount = 0;
+            conceptCards.forEach(card => {
+                const c = card as HTMLElement;
+                const matchesSearch = c.dataset.termino.includes(currentSearch) || c.dataset.definicion.includes(currentSearch);
+                const matchesFilter = currentFilter === 'all' || c.dataset.clase === currentFilter;
+
+                if (matchesSearch && matchesFilter) {
+                    c.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    c.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        searchInput?.addEventListener('input', (e) => {
+            currentSearch = (e.target as HTMLInputElement).value.toLowerCase();
+            filter();
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = (btn as HTMLElement).dataset.clase;
+                filter();
+            });
+        });
+    }
+
+    // Run on load
+    setupGlosario();
+</script>

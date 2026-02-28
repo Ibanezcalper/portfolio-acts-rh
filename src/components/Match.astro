@@ -1,0 +1,284 @@
+---
+import conceptosData from "../../public/conceptos.json";
+---
+
+<div class="max-w-4xl mx-auto px-4 py-16" id="match-game-container">
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold text-blue-900 mb-2 italic">
+            Juego de Relación RH
+        </h2>
+        <p class="text-gray-600 font-medium">
+            Une cada término con su definición correcta haciendo clic en ambos.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
+        <!-- Terms Column -->
+        <div class="space-y-4" id="terms-column">
+            <h3
+                class="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2 mb-4"
+            >
+                Término
+            </h3>
+            <!-- Terms populated by JS -->
+        </div>
+
+        <!-- Definitions Column -->
+        <div class="space-y-4" id="defs-column">
+            <h3
+                class="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2 mb-4 text-right"
+            >
+                Definición
+            </h3>
+            <!-- Definitions populated by JS -->
+        </div>
+
+        <!-- SVG for lines -->
+        <svg
+            id="match-lines"
+            class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
+        ></svg>
+    </div>
+
+    <div class="mt-16 flex justify-center gap-4">
+        <button
+            id="reset-match"
+            class="px-8 py-3 bg-gray-900 hover:bg-black text-white rounded-xl font-bold transition-all transform active:scale-95 shadow-xl flex items-center gap-2"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+            >
+                <path
+                    fill-rule="evenodd"
+                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 110 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61 5.002 5.002 0 008.715 1.333H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            Reiniciar Juego
+        </button>
+    </div>
+</div>
+
+<style>
+    .match-item {
+        background: white;
+        border: 2px solid #e5e7eb;
+        padding: 1.25rem 1.5rem;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .match-item:hover:not(.matched):not(.selected) {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        transform: translateY(-2px);
+    }
+
+    .match-item.selected {
+        border-color: #3b82f6;
+        background: #3b82f6;
+        color: white;
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+    }
+
+    .match-item.matched {
+        border-color: #22c55e;
+        background: #f0fdf4;
+        color: #166534;
+        opacity: 0.8;
+        cursor: default;
+    }
+
+    .match-item.wrong {
+        animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        border-color: #ef4444;
+        background: #fef2f2;
+    }
+
+    @keyframes shake {
+        10%,
+        90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+        20%,
+        80% {
+            transform: translate3d(2px, 0, 0);
+        }
+        30%,
+        50%,
+        70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+        40%,
+        60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
+
+    .line {
+        stroke: #3b82f6;
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: draw 0.6s forwards ease-out;
+        opacity: 0.4;
+    }
+
+    @keyframes draw {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+</style>
+
+<script define:vars={{ conceptosData }}>
+    let selectedTerm = null;
+    let selectedDef = null;
+    let matchesFound = 0;
+    const TOTAL_MATCHES = 5;
+
+    const termsCol = document.getElementById("terms-column");
+    const defsCol = document.getElementById("defs-column");
+    const resetBtn = document.getElementById("reset-match");
+    const svgEl = document.getElementById("match-lines");
+
+    function initMatchGame() {
+        termsCol.querySelectorAll(".match-item").forEach((e) => e.remove());
+        defsCol.querySelectorAll(".match-item").forEach((e) => e.remove());
+        svgEl.innerHTML = "";
+        selectedTerm = null;
+        selectedDef = null;
+        matchesFound = 0;
+
+        // Pick 5 random unique concepts
+        const pool = conceptosData.sort(() => 0.5 - Math.random());
+        const selected = pool.slice(0, TOTAL_MATCHES);
+
+        // Shuffle terms and defs independently
+        const terms = selected
+            .map((s) => ({ id: s.termino, text: s.termino }))
+            .sort(() => 0.5 - Math.random());
+        const defs = selected
+            .map((s) => ({ id: s.termino, text: s.definicion }))
+            .sort(() => 0.5 - Math.random());
+
+        terms.forEach((t) => {
+            const el = document.createElement("div");
+            el.className = "match-item term-item";
+            el.innerText = t.text;
+            el.dataset.id = t.id;
+            el.onclick = () => handleTermClick(el);
+            termsCol.appendChild(el);
+        });
+
+        defs.forEach((d) => {
+            const el = document.createElement("div");
+            el.className =
+                "match-item def-item text-sm italic font-medium leading-relaxed p-4";
+            el.innerText = d.text;
+            el.dataset.id = d.id;
+            el.onclick = () => handleDefClick(el);
+            defsCol.appendChild(el);
+        });
+    }
+
+    function handleTermClick(el) {
+        if (el.classList.contains("matched") || el === selectedTerm) return;
+
+        if (selectedTerm) selectedTerm.classList.remove("selected");
+        selectedTerm = el;
+        el.classList.add("selected");
+        checkMatch();
+    }
+
+    function handleDefClick(el) {
+        if (el.classList.contains("matched") || el === selectedDef) return;
+
+        if (selectedDef) selectedDef.classList.remove("selected");
+        selectedDef = el;
+        el.classList.add("selected");
+        checkMatch();
+    }
+
+    function checkMatch() {
+        if (selectedTerm && selectedDef) {
+            if (selectedTerm.dataset.id === selectedDef.dataset.id) {
+                // SUCCESS
+                selectedTerm.classList.remove("selected");
+                selectedDef.classList.remove("selected");
+                selectedTerm.classList.add("matched");
+                selectedDef.classList.add("matched");
+
+                drawLine(selectedTerm, selectedDef);
+
+                selectedTerm = null;
+                selectedDef = null;
+                matchesFound++;
+
+                if (matchesFound === TOTAL_MATCHES) {
+                    setTimeout(
+                        () =>
+                            alert(
+                                "¡Exclente! Has relacionado todos los conceptos correctamente.",
+                            ),
+                        400,
+                    );
+                }
+            } else {
+                // FAIL
+                const t = selectedTerm;
+                const d = selectedDef;
+                t.classList.add("wrong");
+                d.classList.add("wrong");
+
+                setTimeout(() => {
+                    t.classList.remove("wrong", "selected");
+                    d.classList.remove("wrong", "selected");
+                }, 500);
+
+                selectedTerm = null;
+                selectedDef = null;
+            }
+        }
+    }
+
+    function drawLine(el1, el2) {
+        const rect1 = el1.getBoundingClientRect();
+        const rect2 = el2.getBoundingClientRect();
+        const parentRect = svgEl.getBoundingClientRect();
+
+        const x1 = rect1.right - parentRect.left;
+        const y1 = rect1.top + rect1.height / 2 - parentRect.top;
+        const x2 = rect2.left - parentRect.left;
+        const y2 = rect2.top + rect2.height / 2 - parentRect.top;
+
+        const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line",
+        );
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y2);
+        line.setAttribute("class", "line");
+        svgEl.appendChild(line);
+    }
+
+    resetBtn.addEventListener("click", initMatchGame);
+    initMatchGame();
+
+    // Recalculate lines on resize if needed? (optional for this context)
+</script>

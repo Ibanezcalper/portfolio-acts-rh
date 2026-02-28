@@ -1,0 +1,192 @@
+---
+import conceptosData from "../../public/conceptos.json";
+---
+
+<div class="max-w-4xl mx-auto px-4 py-16 text-center" id="flashcards-section">
+    <div class="mb-12">
+        <h2 class="text-4xl font-black text-gray-800 mb-2 italic">
+            Flashcards Interactivas
+        </h2>
+        <p class="text-gray-500 font-medium">
+            Pulsa en la tarjeta para revelar la definición.
+        </p>
+    </div>
+
+    <!-- Flashcard Container -->
+    <div class="relative w-full max-w-md mx-auto h-80 perspective-1000 group">
+        <div
+            id="flashcard"
+            class="relative w-full h-full transition-transform duration-700 transform-style-3d cursor-pointer shadow-2xl rounded-3xl"
+        >
+            <!-- Front (Term) -->
+            <div
+                class="absolute inset-0 w-full h-full backface-hidden flex flex-col items-center justify-center p-10 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-3xl border-4 border-white/20 shadow-inner"
+            >
+                <span
+                    class="absolute top-6 left-6 text-xs font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full"
+                    id="card-clase">Clase 1</span
+                >
+                <h3
+                    id="card-termino"
+                    class="text-3xl md:text-4xl font-extrabold text-center drop-shadow-md"
+                >
+                    Cargando...
+                </h3>
+                <div class="mt-8 opacity-60">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-10 w-10 animate-pulse"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        ></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Back (Definition) -->
+            <div
+                class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col items-center justify-center p-8 bg-white text-gray-800 rounded-3xl border-4 border-blue-500/10 shadow-inner overflow-y-auto"
+            >
+                <h4
+                    class="text-blue-600 font-bold text-sm uppercase mb-4 tracking-tighter"
+                >
+                    Definición
+                </h4>
+                <p
+                    id="card-definicion"
+                    class="text-lg md:text-xl font-medium leading-relaxed italic text-center text-gray-700"
+                >
+                    ...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="mt-12 flex justify-center items-center gap-6">
+        <button
+            id="prev-card"
+            class="p-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-2xl transition-all active:scale-95 shadow-lg group"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 group-hover:-translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+
+        <button
+            id="next-card"
+            class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all active:scale-95 shadow-xl flex items-center gap-2 group"
+        >
+            Siguiente Concepto
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="mt-6 text-sm font-bold text-gray-400 uppercase tracking-widest">
+        Concepto <span id="current-count">0</span> de <span id="total-count"
+            >0</span
+        >
+    </div>
+</div>
+
+<style>
+    .perspective-1000 {
+        perspective: 1000px;
+    }
+    .transform-style-3d {
+        transform-style: preserve-3d;
+    }
+    .backface-hidden {
+        backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+        transform: rotateY(180deg);
+    }
+    .flipped {
+        transform: rotateY(180deg);
+    }
+</style>
+
+<script define:vars={{ conceptosData }}>
+    let concepts = conceptosData;
+    let currentIndex = Math.floor(Math.random() * concepts.length);
+    let isFlipped = false;
+
+    const flashcard = document.getElementById("flashcard");
+    const termEl = document.getElementById("card-termino");
+    const defEl = document.getElementById("card-definicion");
+    const claseEl = document.getElementById("card-clase");
+    const countEl = document.getElementById("current-count");
+    const totalEl = document.getElementById("total-count");
+    const nextBtn = document.getElementById("next-card");
+    const prevBtn = document.getElementById("prev-card");
+
+    function updateCard() {
+        const concept = concepts[currentIndex];
+
+        // Reset flip state with timeout to avoid seeing text change
+        if (isFlipped) {
+            flashcard.classList.remove("flipped");
+            isFlipped = false;
+            setTimeout(() => {
+                termEl.innerText = concept.termino;
+                defEl.innerText = concept.definicion;
+                claseEl.innerText = `Clase ${concept.clase}`;
+                countEl.innerText = currentIndex + 1;
+            }, 300);
+        } else {
+            termEl.innerText = concept.termino;
+            defEl.innerText = concept.definicion;
+            claseEl.innerText = `Clase ${concept.clase}`;
+            countEl.innerText = currentIndex + 1;
+        }
+
+        totalEl.innerText = concepts.length;
+    }
+
+    flashcard?.addEventListener("click", () => {
+        isFlipped = !isFlipped;
+        flashcard.classList.toggle("flipped");
+    });
+
+    nextBtn?.addEventListener("click", () => {
+        currentIndex = Math.floor(Math.random() * concepts.length);
+        updateCard();
+    });
+
+    prevBtn?.addEventListener("click", () => {
+        currentIndex = Math.floor(Math.random() * concepts.length);
+        updateCard();
+    });
+
+    updateCard();
+</script>
