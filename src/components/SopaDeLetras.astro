@@ -2,7 +2,11 @@
 import conceptosData from "../../public/conceptos.json";
 ---
 
-<div class="relative py-24 px-6 bg-slate-50" id="wordsearch-expert">
+<div
+    class="relative py-24 px-6 bg-slate-50"
+    id="wordsearch-expert"
+    data-conceptos={JSON.stringify(conceptosData)}
+>
     <div class="max-w-7xl mx-auto">
         <div class="flex flex-col lg:flex-row gap-16 items-start">
             <!-- Left Header & List -->
@@ -30,14 +34,24 @@ import conceptosData from "../../public/conceptos.json";
                     <h3
                         class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-8 flex items-center justify-between"
                     >
-                        Objetivos de Búsqueda
-                        <span
-                            id="score-badge"
-                            class="px-3 py-1 bg-slate-900 text-white rounded-lg font-bold"
-                            >0/10</span
-                        >
+                        Objetivos
+                        <div class="flex items-center gap-4">
+                            <span
+                                id="timer-badge-sopa"
+                                class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg font-mono font-bold tracking-tighter"
+                                >00:00</span
+                            >
+                            <span
+                                id="score-badge-sopa"
+                                class="px-3 py-1 bg-slate-900 text-white rounded-lg font-bold"
+                                >0/10</span
+                            >
+                        </div>
                     </h3>
-                    <ul id="word-list" class="grid grid-cols-2 gap-y-4 gap-x-6">
+                    <ul
+                        id="word-list-sopa"
+                        class="grid grid-cols-2 gap-y-4 gap-x-6"
+                    >
                         <!-- JS populated -->
                     </ul>
 
@@ -45,19 +59,6 @@ import conceptosData from "../../public/conceptos.json";
                         id="reset-sopa"
                         class="mt-12 w-full py-5 bg-slate-900 hover:bg-black text-white rounded-2xl font-black text-sm transition-all shadow-xl shadow-slate-900/20 active:scale-95 group flex items-center justify-center gap-3"
                     >
-                        <svg
-                            class="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2.5"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                            ></path>
-                        </svg>
                         REGENERAR MATRIZ
                     </button>
                 </div>
@@ -66,15 +67,42 @@ import conceptosData from "../../public/conceptos.json";
             <!-- Right Grid Arena -->
             <div class="lg:w-2/3 w-full">
                 <div class="relative group select-none">
-                    <!-- Grid Glow -->
+                    <!-- Victory Modal Overlay -->
                     <div
-                        class="absolute -inset-4 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 rounded-[3rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                        id="victory-modal-sopa"
+                        class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500 rounded-[3rem]"
                     >
+                        <div
+                            class="bg-white p-12 rounded-[2.5rem] shadow-2xl text-center transform scale-90 transition-transform duration-500 max-w-sm mx-auto"
+                        >
+                            <div
+                                class="w-24 h-24 bg-blue-100/50 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl animate-bounce"
+                            >
+                                🏆
+                            </div>
+                            <h4
+                                class="text-3xl font-black text-slate-900 mb-4 tracking-tighter"
+                            >
+                                ¡BRUTAL!
+                            </h4>
+                            <p class="text-slate-500 font-medium mb-8">
+                                Has dominado los conceptos en un tiempo récord
+                                de <span
+                                    id="finish-time-sopa"
+                                    class="text-blue-600 font-bold">00:00</span
+                                >.
+                            </p>
+                            <button
+                                id="close-modal-sopa"
+                                class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-sm transition-all shadow-xl shadow-blue-900/20"
+                                >CONTINUAR APRENDIENDO</button
+                            >
+                        </div>
                     </div>
 
                     <div
-                        id="grid-pnl"
-                        class="relative bg-white p-4 md:p-8 rounded-[3rem] border-8 border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] grid gap-1.5 md:gap-2.5 overflow-hidden"
+                        id="grid-pnl-sopa"
+                        class="relative bg-white p-4 md:p-8 rounded-[3rem] border-8 border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] grid gap-1.5 md:gap-2.5 overflow-hidden touch-none"
                     >
                         <!-- JS populated -->
                     </div>
@@ -84,7 +112,7 @@ import conceptosData from "../../public/conceptos.json";
     </div>
 </div>
 
-<style>
+<style is:global>
     .grid-cell {
         aspect-ratio: 1/1;
         display: flex;
@@ -100,35 +128,30 @@ import conceptosData from "../../public/conceptos.json";
         color: #1e293b;
         text-transform: uppercase;
     }
-
     @media (min-width: 768px) {
         .grid-cell {
             font-size: 1.1rem;
             border-radius: 16px;
         }
     }
-
     .grid-cell:hover:not(.found) {
         background-color: #e2e8f0;
         transform: scale(1.1);
         z-index: 10;
         color: #2563eb;
     }
-
     .grid-cell.selected {
         background-color: #2563eb !important;
         color: white !important;
         transform: scale(0.9);
         box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
     }
-
     .grid-cell.found {
         background-color: #10b981 !important;
         color: white !important;
         border-radius: 12px;
         animation: spark 0.5s ease-out;
     }
-
     @keyframes spark {
         0% {
             transform: scale(1);
@@ -143,7 +166,6 @@ import conceptosData from "../../public/conceptos.json";
             transform: scale(1);
         }
     }
-
     .word-item {
         display: flex;
         align-items: center;
@@ -155,211 +177,292 @@ import conceptosData from "../../public/conceptos.json";
         padding: 0.5rem;
         border-radius: 0.75rem;
     }
-
     .word-item.word-found {
         color: #10b981;
         background: #f0fdf4;
         text-decoration: line-through;
         opacity: 0.6;
     }
-
     .word-item .dot {
         width: 6px;
         height: 6px;
         background: #cbd5e1;
         border-radius: 99px;
     }
-
     .word-item.word-found .dot {
         background: #10b981;
         box-shadow: 0 0 10px #10b981;
     }
 </style>
 
-<script define:vars={{ conceptosData }}>
-    const SIZE = 14;
-    const TARGET = 10;
-    let grid = [];
-    let words = [];
-    let found = [];
-    let selecting = false;
-    let selCells = [];
-    let startC = null;
+<script>
+    (function () {
+        const container = document.getElementById("wordsearch-expert");
+        if (!container) return;
+        const conceptosData = JSON.parse(
+            container.getAttribute("data-conceptos") || "[]",
+        );
 
-    const gridE = document.getElementById("grid-pnl");
-    const wordListE = document.getElementById("word-list");
-    const scoreE = document.getElementById("score-badge");
-    const resetB = document.getElementById("reset-sopa");
+        const SIZE = 14;
+        const TARGET = 10;
+        let grid = [];
+        let words = [];
+        let found = [];
+        let selecting = false;
+        let selCells = [];
+        let startC = null;
 
-    function init() {
-        gridE.innerHTML = "";
-        wordListE.innerHTML = "";
-        selCells = [];
-        found = [];
-        scoreE.textContent = `0/${TARGET}`;
-        grid = Array(SIZE)
-            .fill(null)
-            .map(() => Array(SIZE).fill(""));
+        const gridE = document.getElementById("grid-pnl-sopa");
+        const wordListE = document.getElementById("word-list-sopa");
+        const scoreE = document.getElementById("score-badge-sopa");
+        const timerE = document.getElementById("timer-badge-sopa");
+        const resetB = document.getElementById("reset-sopa");
+        const modalE = document.getElementById("victory-modal-sopa");
+        const finishTimeE = document.getElementById("finish-time-sopa");
+        const closeModalB = document.getElementById("close-modal-sopa");
 
-        // Prepare words
-        const pool = conceptosData
-            .map((c) => c.termino.toUpperCase().replace(/[^A-Z]/g, ""))
-            .filter((t) => t.length > 3 && t.length < SIZE - 2)
-            .sort(() => 0.5 - Math.random());
+        let startTime = null;
+        let timerInterval = null;
 
-        words = [...new Set(pool)].slice(0, TARGET);
+        function init() {
+            clearInterval(timerInterval);
+            startTime = null;
+            if (timerE) timerE.textContent = "00:00";
+            if (gridE) gridE.innerHTML = "";
+            if (wordListE) wordListE.innerHTML = "";
+            selCells = [];
+            found = [];
+            if (scoreE) scoreE.textContent = `0/${TARGET}`;
+            if (modalE) {
+                modalE.classList.add("pointer-events-none");
+                modalE.classList.remove("opacity-100");
+                modalE.querySelector("div")?.classList.add("scale-90");
+            }
 
-        // Word Placement
-        words.forEach((word) => {
-            let placed = false;
-            let attempts = 0;
-            while (!placed && attempts < 100) {
-                const dir = Math.floor(Math.random() * 3); // 0:H, 1:V, 2:D
-                const r = Math.floor(Math.random() * SIZE);
-                const c = Math.floor(Math.random() * SIZE);
+            grid = Array(SIZE)
+                .fill(null)
+                .map(() => Array(SIZE).fill(""));
 
-                if (canPlace(word, r, c, dir)) {
-                    place(word, r, c, dir);
-                    placed = true;
+            const pool = conceptosData
+                .map((c) =>
+                    c.termino.toUpperCase().replace(/[^A-ZÁÉÍÓÚÑ]/g, ""),
+                )
+                .filter((t) => t.length > 3 && t.length < SIZE - 2)
+                .sort(() => 0.5 - Math.random());
+
+            words = Array.from(new Set(pool)).slice(0, TARGET);
+
+            words.forEach((word) => {
+                let placed = false;
+                let attempts = 0;
+                while (!placed && attempts < 100) {
+                    const dir = Math.floor(Math.random() * 3);
+                    const r = Math.floor(Math.random() * SIZE);
+                    const c = Math.floor(Math.random() * SIZE);
+                    if (canPlace(word, r, c, dir)) {
+                        place(word, r, c, dir);
+                        placed = true;
+                    }
+                    attempts++;
                 }
-                attempts++;
+            });
+
+            const alpha = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ";
+            for (let r = 0; r < SIZE; r++) {
+                for (let c = 0; c < SIZE; c++) {
+                    if (!grid[r][c])
+                        grid[r][c] =
+                            alpha[Math.floor(Math.random() * alpha.length)];
+                }
             }
-        });
+            render();
+        }
 
-        // Fill Noise
-        const alpha = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-        for (let r = 0; r < SIZE; r++) {
-            for (let c = 0; c < SIZE; c++) {
-                if (!grid[r][c])
-                    grid[r][c] =
-                        alpha[Math.floor(Math.random() * alpha.length)];
+        function canPlace(w, r, c, d) {
+            if (d === 0) {
+                // H
+                if (c + w.length > SIZE) return false;
+                for (let i = 0; i < w.length; i++)
+                    if (grid[r][c + i] && grid[r][c + i] !== w[i]) return false;
+            } else if (d === 1) {
+                // V
+                if (r + w.length > SIZE) return false;
+                for (let i = 0; i < w.length; i++)
+                    if (grid[r + i][c] && grid[r + i][c] !== w[i]) return false;
+            } else {
+                // D
+                if (r + w.length > SIZE || c + w.length > SIZE) return false;
+                for (let i = 0; i < w.length; i++)
+                    if (grid[r + i][c + i] && grid[r + i][c + i] !== w[i])
+                        return false;
             }
+            return true;
         }
 
-        render();
-    }
-
-    function canPlace(w, r, c, d) {
-        if (d === 0) {
-            // H
-            if (c + w.length > SIZE) return false;
-            for (let i = 0; i < w.length; i++)
-                if (grid[r][c + i] && grid[r][c + i] !== w[i]) return false;
-        } else if (d === 1) {
-            // V
-            if (r + w.length > SIZE) return false;
-            for (let i = 0; i < w.length; i++)
-                if (grid[r + i][c] && grid[r + i][c] !== w[i]) return false;
-        } else {
-            // D
-            if (r + w.length > SIZE || c + w.length > SIZE) return false;
-            for (let i = 0; i < w.length; i++)
-                if (grid[r + i][c + i] && grid[r + i][c + i] !== w[i])
-                    return false;
-        }
-        return true;
-    }
-
-    function place(w, r, c, d) {
-        for (let i = 0; i < w.length; i++) {
-            if (d === 0) grid[r][c + i] = w[i];
-            else if (d === 1) grid[r + i][c] = w[i];
-            else grid[r + i][c + i] = w[i];
-        }
-    }
-
-    function render() {
-        gridE.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
-        for (let r = 0; r < SIZE; r++) {
-            for (let c = 0; c < SIZE; c++) {
-                const cell = document.createElement("div");
-                cell.className = "grid-cell shadow-sm";
-                cell.textContent = grid[r][c];
-                cell.dataset.r = r;
-                cell.dataset.c = c;
-
-                cell.onmousedown = (e) => start(r, c, cell);
-                cell.onmouseenter = (e) => move(r, c, cell);
-                gridE.appendChild(cell);
+        function place(w, r, c, d) {
+            for (let i = 0; i < w.length; i++) {
+                if (d === 0) grid[r][c + i] = w[i];
+                else if (d === 1) grid[r + i][c] = w[i];
+                else grid[r + i][c + i] = w[i];
             }
         }
 
-        words.forEach((w) => {
-            const li = document.createElement("li");
-            li.id = `item-${w}`;
-            li.className = "word-item uppercase tracking-tighter";
-            li.innerHTML = `<span class="dot"></span> ${w}`;
-            wordListE.appendChild(li);
-        });
-    }
+        function render() {
+            if (!gridE) return;
+            gridE.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
+            for (let r = 0; r < SIZE; r++) {
+                for (let c = 0; c < SIZE; c++) {
+                    const cell = document.createElement("div");
+                    cell.className = "grid-cell shadow-sm";
+                    cell.textContent = grid[r][c];
+                    cell.dataset.r = r.toString();
+                    cell.dataset.c = c.toString();
 
-    function start(r, c, el) {
-        selecting = true;
-        startC = { r, c };
-        clearSel();
-        addSel(r, c, el);
-    }
+                    cell.addEventListener("mousedown", () =>
+                        startSelect(r, c, cell),
+                    );
+                    cell.addEventListener("mouseenter", () =>
+                        moveSelect(r, c, cell),
+                    );
+                    cell.addEventListener(
+                        "touchstart",
+                        (e) => {
+                            e.preventDefault();
+                            startSelect(r, c, cell);
+                        },
+                        { passive: false },
+                    );
 
-    function move(r, c, el) {
-        if (!selecting) return;
-        const dr = r - startC.r;
-        const dc = c - startC.c;
-        if (dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) {
-            clearSel();
-            const steps = Math.max(Math.abs(dr), Math.abs(dc));
-            const sr = dr === 0 ? 0 : dr / Math.abs(dr);
-            const sc = dc === 0 ? 0 : dc / Math.abs(dc);
-            for (let i = 0; i <= steps; i++) {
-                const tr = startC.r + i * sr;
-                const tc = startC.c + i * sc;
-                const targetEl = document.querySelector(
-                    `[data-r="${tr}"][data-c="${tc}"]`,
-                );
-                if (targetEl) addSel(tr, tc, targetEl);
+                    gridE.appendChild(cell);
+                }
             }
+
+            words.forEach((w) => {
+                const li = document.createElement("li");
+                li.id = `item-${w}`;
+                li.className = "word-item uppercase tracking-tighter";
+                li.innerHTML = `<span class="dot"></span> ${w}`;
+                wordListE?.appendChild(li);
+            });
         }
-    }
 
-    function addSel(r, c, el) {
-        selCells.push(el);
-        el.classList.add("selected");
-    }
-
-    function clearSel() {
-        selCells.forEach((el) => el.classList.remove("selected"));
-        selCells = [];
-    }
-
-    function end() {
-        if (!selecting) return;
-        selecting = false;
-        const word = selCells.map((el) => el.textContent).join("");
-        const rev = word.split("").reverse().join("");
-
-        if (words.includes(word) && !found.includes(word)) win(word);
-        else if (words.includes(rev) && !found.includes(rev)) win(rev);
-
-        clearSel();
-    }
-
-    function win(w) {
-        found.push(w);
-        selCells.forEach((el) => el.classList.add("found"));
-        document.getElementById(`item-${w}`).classList.add("word-found");
-        scoreE.textContent = `${found.length}/${TARGET}`;
-
-        if (found.length === TARGET) {
-            setTimeout(
-                () =>
-                    alert(
-                        "¡MISIÓN CUMPLIDA! Has encontrado todos los conceptos estratégicos.",
-                    ),
-                300,
+        if (gridE) {
+            gridE.addEventListener(
+                "touchmove",
+                (e) => {
+                    if (!selecting) return;
+                    const touch = e.touches[0];
+                    const el = document.elementFromPoint(
+                        touch.clientX,
+                        touch.clientY,
+                    );
+                    if (el && el.classList.contains("grid-cell")) {
+                        const r = parseInt((el as HTMLElement).dataset.r!);
+                        const c = parseInt((el as HTMLElement).dataset.c!);
+                        moveSelect(r, c, el as HTMLElement);
+                    }
+                },
+                { passive: false },
             );
         }
-    }
 
-    window.onmouseup = end;
-    resetB.onclick = init;
-    init();
+        window.addEventListener("mouseup", endSelect);
+        window.addEventListener("touchend", endSelect);
+
+        function startSelect(r, c, el) {
+            if (!startTime) startTimer();
+            selecting = true;
+            startC = { r, c };
+            clearSel();
+            addSel(r, c, el);
+        }
+
+        function moveSelect(r, c, el) {
+            if (!selecting) return;
+            const dr = r - startC.r;
+            const dc = c - startC.c;
+            if (dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) {
+                clearSel();
+                const steps = Math.max(Math.abs(dr), Math.abs(dc));
+                const sr = dr === 0 ? 0 : dr / Math.abs(dr);
+                const sc = dc === 0 ? 0 : dc / Math.abs(dc);
+                for (let i = 0; i <= steps; i++) {
+                    const tr = startC.r + i * sr;
+                    const tc = startC.c + i * sc;
+                    const targetEl = gridE?.querySelector(
+                        `[data-r="${tr}"][data-c="${tc}"]`,
+                    ) as HTMLElement;
+                    if (targetEl) addSel(tr, tc, targetEl);
+                }
+            }
+        }
+
+        function endSelect() {
+            if (!selecting) return;
+            selecting = false;
+            const word = selCells.map((c) => grid[c.r][c.c]).join("");
+            const revWord = word.split("").reverse().join("");
+
+            if (
+                (words.includes(word) || words.includes(revWord)) &&
+                !found.includes(word) &&
+                !found.includes(revWord)
+            ) {
+                const finalWord = words.includes(word) ? word : revWord;
+                found.push(finalWord);
+                selCells.forEach((c) => {
+                    const el = gridE?.querySelector(
+                        `[data-r="${c.r}"][data-c="${c.c}"]`,
+                    );
+                    el?.classList.add("found");
+                });
+                const item = document.getElementById(`item-${finalWord}`);
+                if (item) item.classList.add("word-found");
+                if (scoreE) scoreE.textContent = `${found.length}/${TARGET}`;
+                if (found.length === TARGET) win();
+            }
+            clearSel();
+        }
+
+        function addSel(r, c, el) {
+            selCells.push({ r, c });
+            el.classList.add("selected");
+        }
+
+        function clearSel() {
+            selCells.forEach((c) => {
+                const el = gridE?.querySelector(
+                    `[data-r="${c.r}"][data-c="${c.c}"]`,
+                );
+                el?.classList.remove("selected");
+            });
+            selCells = [];
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const m = String(Math.floor(elapsed / 60)).padStart(2, "0");
+                const s = String(elapsed % 60).padStart(2, "0");
+                if (timerE) timerE.textContent = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function win() {
+            clearInterval(timerInterval!);
+            if (finishTimeE && timerE)
+                finishTimeE.textContent = timerE.textContent;
+            if (modalE) {
+                modalE.classList.remove("pointer-events-none");
+                modalE.classList.add("opacity-100");
+                modalE.querySelector("div")?.classList.remove("scale-90");
+            }
+        }
+
+        if (resetB) resetB.onclick = init;
+        if (closeModalB) closeModalB.onclick = init;
+        init();
+    })();
 </script>

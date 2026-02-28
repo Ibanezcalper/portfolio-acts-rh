@@ -2,7 +2,11 @@
 import conceptosData from "../../public/conceptos.json";
 ---
 
-<div class="relative py-24 px-6 bg-white overflow-hidden" id="match-expert">
+<div
+    class="relative py-24 px-6 bg-white overflow-hidden"
+    id="match-expert"
+    data-conceptos={JSON.stringify(conceptosData)}
+>
     <!-- Decorative Mesh -->
     <div
         class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"
@@ -24,17 +28,19 @@ import conceptosData from "../../public/conceptos.json";
             <p
                 class="text-slate-500 font-medium max-w-xl mx-auto leading-relaxed"
             >
-                Demuestra tu dominio técnico conectando cada término con su
-                definición operativa. El éxito requiere precisión estratégica.
+                Conecta cada término con su definición. Puedes <strong
+                    >arrastrar</strong
+                > los elementos o <strong>hacer clic</strong> en un término y luego
+                en su definición.
             </p>
         </header>
 
         <div
-            class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 relative"
-            id="match-arena"
+            class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 relative select-none"
+            id="match-arena-match"
         >
             <!-- Terms -->
-            <div class="space-y-6" id="terms-col">
+            <div class="space-y-6" id="terms-col-match">
                 <h3
                     class="text-xs font-black text-slate-400 uppercase tracking-widest mb-10 pl-4 border-l-4 border-indigo-500"
                 >
@@ -44,7 +50,7 @@ import conceptosData from "../../public/conceptos.json";
             </div>
 
             <!-- Definitions -->
-            <div class="space-y-6" id="defs-col">
+            <div class="space-y-6" id="defs-col-match">
                 <h3
                     class="text-xs font-black text-slate-400 uppercase tracking-widest mb-10 pl-4 border-l-4 border-emerald-500"
                 >
@@ -52,53 +58,67 @@ import conceptosData from "../../public/conceptos.json";
                 </h3>
                 <!-- JS Populated -->
             </div>
-
-            <!-- SVG Overlay -->
-            <svg
-                id="match-svg"
-                class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
-            ></svg>
         </div>
 
         <div class="mt-20 flex flex-col items-center gap-6">
-            <div
-                class="px-6 py-2 bg-slate-50 rounded-full border border-slate-100 text-slate-400 font-bold text-[10px] tracking-[0.3em] uppercase"
+            <span
+                id="timer-badge-match"
+                class="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg font-mono font-bold tracking-tighter"
+                >00:00</span
             >
-                Progreso: <span id="match-score" class="text-indigo-600"
-                    >0/5</span
-                >
-            </div>
-
-            <button
-                id="reset-match"
-                class="px-12 py-5 bg-slate-900 hover:bg-black text-white rounded-[2rem] font-black text-sm transition-all shadow-2xl shadow-slate-900/20 active:scale-95 group flex items-center gap-4"
+            <span id="match-score-match" class="text-indigo-600 font-bold"
+                >0/5</span
             >
-                <svg
-                    class="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2.5"
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    ></path>
-                </svg>
-                REINICIAR DESAFÍO
-            </button>
         </div>
+    </div>
+
+    <div class="flex justify-center mt-12">
+        <button
+            id="reset-match"
+            class="px-12 py-5 bg-slate-900 hover:bg-black text-white rounded-[2rem] font-black text-sm transition-all shadow-2xl shadow-slate-900/20 active:scale-95 group flex items-center gap-4"
+        >
+            REINICIAR DESAFÍO
+        </button>
     </div>
 </div>
 
-<style>
+<!-- Victory Modal Overlay -->
+<div
+    id="victory-modal-match"
+    class="fixed inset-0 z-[200] bg-slate-900/40 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500"
+>
+    <div
+        class="bg-white p-12 rounded-[2.5rem] shadow-2xl text-center transform scale-90 transition-transform duration-500 max-w-sm mx-auto"
+    >
+        <div
+            class="w-24 h-24 bg-indigo-100/50 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl animate-bounce"
+        >
+            🎯
+        </div>
+        <h4 class="text-3xl font-black text-slate-900 mb-4 tracking-tighter">
+            ¡EXCELENTE!
+        </h4>
+        <p class="text-slate-500 font-medium mb-8">
+            Has correlacionado todos los términos en <span
+                id="finish-time-match"
+                class="text-indigo-600 font-bold">00:00</span
+            >.
+        </p>
+        <button
+            id="close-modal-match"
+            class="w-full py-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black text-sm transition-all shadow-xl shadow-indigo-900/20"
+            >CONTINUAR APRENDIENDO</button
+        >
+    </div>
+</div>
+
+<style is:global>
     .match-item {
         background: white;
         border: 2px solid #f1f5f9;
         padding: 1.5rem 2rem;
         border-radius: 1.5rem;
-        cursor: pointer;
+        cursor: grab;
         transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         font-weight: 700;
         color: #1e293b;
@@ -110,202 +130,300 @@ import conceptosData from "../../public/conceptos.json";
         min-height: 6rem;
         text-align: center;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        user-select: none;
+        touch-action: none;
     }
-
-    .match-item:hover:not(.matched):not(.sel) {
+    .match-item:active {
+        cursor: grabbing;
+    }
+    .match-item:hover:not(.matched):not(.dragging) {
         border-color: #6366f1;
         background: #f8fafc;
-        transform: translateX(4px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
     }
-
-    .def-item:hover:not(.matched):not(.sel) {
-        transform: translateX(-4px);
+    .match-item.selected {
+        border-color: #6366f1;
+        background: #eef2ff;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        transform: scale(1.02);
     }
-
-    .match-item.sel {
-        background: #1e293b;
-        color: white;
-        border-color: #1e293b;
-        box-shadow: 0 10px 30px rgba(30, 41, 59, 0.2);
-        transform: scale(1.05);
-    }
-
     .match-item.matched {
-        background: #f0fdf4;
-        border-color: #10b981;
-        color: #065f46;
+        background: #f0fdf4 !important;
+        border-color: #10b981 !important;
+        color: #065f46 !important;
         cursor: default;
         opacity: 0.7;
+        pointer-events: none;
+        transform: none !important;
+        box-shadow: none !important;
     }
 
-    .match-item.error {
-        animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-        border-color: #ef4444;
-        background: #fef2f2;
-        color: #991b1b;
+    .drop-zone {
+        border: 2px dashed #e2e8f0;
+        background: #f8fafc;
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        min-height: 8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #64748b;
+        transition: all 0.3s;
+        position: relative;
+        cursor: pointer;
+    }
+    .drop-zone:hover:not(.matched) {
+        border-color: #10b981;
+        background: #f0fdf4;
+    }
+    .drop-zone.drag-over {
+        border-color: #6366f1;
+        background: #eef2ff;
+        color: #6366f1;
+    }
+    .drop-zone.matched {
+        border-style: solid;
+        border-color: #10b981;
+        background: #f0fdf4;
+        color: #065f46;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        cursor: default;
     }
 
+    .dragging {
+        opacity: 0.5;
+        transform: scale(0.95);
+        z-index: 100;
+        pointer-events: none;
+    }
     @keyframes shake {
         0%,
         100% {
             transform: translateX(0);
         }
-        20%,
-        60% {
-            transform: translateX(-4px);
+        25% {
+            transform: translateX(-5px);
         }
-        40%,
-        80% {
-            transform: translateX(4px);
+        75% {
+            transform: translateX(5px);
         }
     }
-
-    .match-line {
-        stroke: #6366f1;
-        stroke-width: 4px;
-        stroke-linecap: round;
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 1000;
-        animation: drawLine 0.8s forwards cubic-bezier(0.4, 0, 0.2, 1);
-        filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
-    }
-
-    @keyframes drawLine {
-        to {
-            stroke-dashoffset: 0;
-        }
+    .error-shake {
+        animation: shake 0.3s ease-in-out;
+        border-color: #ef4444 !important;
     }
 </style>
 
-<script define:vars={{ conceptosData }}>
-    let selT = null;
-    let selD = null;
-    let score = 0;
-    const TOTAL = 5;
+<script>
+    (function () {
+        const container = document.getElementById("match-expert");
+        if (!container) return;
+        const conceptosData = JSON.parse(
+            container.getAttribute("data-conceptos") || "[]",
+        );
 
-    const tCol = document.getElementById("terms-col");
-    const dCol = document.getElementById("defs-col");
-    const resetB = document.getElementById("reset-match");
-    const scB = document.getElementById("match-score");
-    const svgE = document.getElementById("match-svg");
+        const TOTAL = 5;
+        let score = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let selectedTermId = null;
 
-    function init() {
-        // Cleanup old cards (careful with headers)
-        tCol.querySelectorAll(".match-item").forEach((e) => e.remove());
-        dCol.querySelectorAll(".match-item").forEach((e) => e.remove());
-        svgE.innerHTML = "";
-        selT = null;
-        selD = null;
-        score = 0;
-        scB.textContent = `0/${TOTAL}`;
+        const tCol = document.getElementById("terms-col-match");
+        const dCol = document.getElementById("defs-col-match");
+        const resetB = document.getElementById("reset-match");
+        const scB = document.getElementById("match-score-match");
+        const timerE = document.getElementById("timer-badge-match");
+        const modalE = document.getElementById("victory-modal-match");
+        const finishTimeE = document.getElementById("finish-time-match");
+        const closeModalB = document.getElementById("close-modal-match");
 
-        const pool = conceptosData
-            .sort(() => 0.5 - Math.random())
-            .slice(0, TOTAL);
-        const terms = [...pool]
-            .map((p) => ({ id: p.termino, val: p.termino }))
-            .sort(() => 0.5 - Math.random());
-        const defs = [...pool]
-            .map((p) => ({ id: p.termino, val: p.definicion }))
-            .sort(() => 0.5 - Math.random());
+        function init() {
+            clearInterval(timerInterval!);
+            startTime = null;
+            selectedTermId = null;
+            if (timerE) timerE.textContent = "00:00";
+            score = 0;
+            if (scB) scB.textContent = `0/${TOTAL}`;
 
-        terms.forEach((t) => {
-            const el = document.createElement("div");
-            el.className = "match-item";
-            el.textContent = t.val;
-            el.dataset.id = t.id;
-            el.onclick = () => {
-                if (el.classList.contains("matched") || el === selT) return;
-                if (selT) selT.classList.remove("sel");
-                selT = el;
-                el.classList.add("sel");
-                check();
-            };
-            tCol.appendChild(el);
-        });
+            if (tCol)
+                tCol.querySelectorAll(".match-item").forEach((e) => e.remove());
+            if (dCol)
+                dCol.querySelectorAll(".drop-zone").forEach((e) => e.remove());
 
-        defs.forEach((d) => {
-            const el = document.createElement("div");
-            el.className =
-                "match-item def-item text-sm font-medium italic leading-relaxed px-6";
-            el.textContent = d.val;
-            el.dataset.id = d.id;
-            el.onclick = () => {
-                if (el.classList.contains("matched") || el === selD) return;
-                if (selD) selD.classList.remove("sel");
-                selD = el;
-                el.classList.add("sel");
-                check();
-            };
-            dCol.appendChild(el);
-        });
-    }
+            if (modalE) {
+                modalE.classList.add("pointer-events-none");
+                modalE.classList.remove("opacity-100");
+                modalE.querySelector("div")?.classList.add("scale-90");
+            }
 
-    function check() {
-        if (selT && selD) {
-            if (selT.dataset.id === selD.dataset.id) {
-                selT.classList.replace("sel", "matched");
-                selD.classList.replace("sel", "matched");
-                draw(selT, selD);
-                selT = null;
-                selD = null;
-                score++;
-                scB.textContent = `${score}/${TOTAL}`;
-                if (score === TOTAL)
-                    setTimeout(
-                        () =>
-                            alert(
-                                "¡IMPECABLE! Has completado el test de correlación con éxito.",
-                            ),
-                        400,
+            const pool = conceptosData
+                .sort(() => 0.5 - Math.random())
+                .slice(0, TOTAL);
+
+            const terms = [...pool].sort(() => 0.5 - Math.random());
+            const defs = [...pool].sort(() => 0.5 - Math.random());
+
+            terms.forEach((t) => {
+                const el = document.createElement("div");
+                el.className = "match-item shadow-sm";
+                el.textContent = t.termino;
+                el.draggable = true;
+                el.dataset.id = t.termino;
+
+                // Drag logic
+                el.addEventListener("dragstart", (e) => {
+                    if (!startTime) startTimer();
+                    el.classList.add("dragging");
+                    e.dataTransfer?.setData("text/plain", t.termino);
+                });
+                el.addEventListener("dragend", () =>
+                    el.classList.remove("dragging"),
+                );
+
+                // Click logic
+                el.addEventListener("click", () => {
+                    if (!startTime) startTimer();
+                    if (el.classList.contains("matched")) return;
+
+                    document
+                        .querySelectorAll(".match-item")
+                        .forEach((m) => m.classList.remove("selected"));
+                    if (selectedTermId === t.termino) {
+                        selectedTermId = null;
+                    } else {
+                        selectedTermId = t.termino;
+                        el.classList.add("selected");
+                    }
+                });
+
+                // Touch support (Drag)
+                el.addEventListener("touchstart", (e) => {
+                    if (!startTime) startTimer();
+                });
+                el.addEventListener("touchmove", (e) => {
+                    el.classList.add("dragging");
+                    const touch = e.touches[0];
+                    const target = document.elementFromPoint(
+                        touch.clientX,
+                        touch.clientY,
                     );
+                    document
+                        .querySelectorAll(".drop-zone")
+                        .forEach((dz) => dz.classList.remove("drag-over"));
+                    const dropZone = target?.closest(".drop-zone");
+                    if (dropZone) dropZone.classList.add("drag-over");
+                });
+                el.addEventListener("touchend", (e) => {
+                    el.classList.remove("dragging");
+                    const touch = e.changedTouches[0];
+                    const target = document.elementFromPoint(
+                        touch.clientX,
+                        touch.clientY,
+                    );
+                    const dropZone = target?.closest(
+                        ".drop-zone",
+                    ) as HTMLElement;
+                    document
+                        .querySelectorAll(".drop-zone")
+                        .forEach((dz) => dz.classList.remove("drag-over"));
+                    if (dropZone) handleDrop(t.termino, dropZone);
+                });
+
+                tCol?.appendChild(el);
+            });
+
+            defs.forEach((d) => {
+                const el = document.createElement("div");
+                el.className = "drop-zone";
+                el.textContent = d.definicion;
+                el.dataset.id = d.termino;
+
+                el.addEventListener("dragover", (e) => {
+                    e.preventDefault();
+                    el.classList.add("drag-over");
+                });
+                el.addEventListener("dragleave", () =>
+                    el.classList.remove("drag-over"),
+                );
+                el.addEventListener("drop", (e) => {
+                    e.preventDefault();
+                    el.classList.remove("drag-over");
+                    const termId = e.dataTransfer?.getData("text/plain");
+                    if (termId) handleDrop(termId, el);
+                });
+
+                el.addEventListener("click", () => {
+                    if (selectedTermId) {
+                        handleDrop(selectedTermId, el);
+                        selectedTermId = null;
+                        document
+                            .querySelectorAll(".match-item")
+                            .forEach((m) => m.classList.remove("selected"));
+                    }
+                });
+
+                dCol?.appendChild(el);
+            });
+        }
+
+        function handleDrop(termId: string, dropZone: HTMLElement) {
+            if (dropZone.classList.contains("matched")) return;
+
+            if (termId === dropZone.dataset.id) {
+                const originalDef = dropZone.textContent;
+                dropZone.classList.add("matched");
+                dropZone.innerHTML = `<div class="flex flex-col items-center">
+                    <span class="text-indigo-600 font-black text-lg mb-2">${termId}</span>
+                    <span class="text-[11px] leading-tight font-medium text-slate-500 max-w-[90%]">${originalDef}</span>
+                </div>`;
+
+                const termEl = tCol?.querySelector(
+                    `[data-id="${termId}"]`,
+                ) as HTMLElement;
+                if (termEl) {
+                    termEl.classList.add("matched");
+                    termEl.classList.remove("selected");
+                }
+
+                score++;
+                if (scB) scB.textContent = `${score}/${TOTAL}`;
+                if (score === TOTAL) win();
             } else {
-                const a = selT;
-                const b = selD;
-                a.classList.add("error");
-                b.classList.add("error");
-                setTimeout(() => {
-                    a.classList.remove("error", "sel");
-                    b.classList.remove("error", "sel");
-                }, 500);
-                selT = null;
-                selD = null;
+                dropZone.classList.add("error-shake");
+                setTimeout(() => dropZone.classList.remove("error-shake"), 500);
             }
         }
-    }
 
-    function draw(e1, e2) {
-        const r1 = e1.getBoundingClientRect();
-        const r2 = e2.getBoundingClientRect();
-        const arena = document
-            .getElementById("match-arena")
-            .getBoundingClientRect();
+        function startTimer() {
+            if (timerInterval) return;
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const m = String(Math.floor(elapsed / 60)).padStart(2, "0");
+                const s = String(elapsed % 60).padStart(2, "0");
+                if (timerE) timerE.textContent = `${m}:${s}`;
+            }, 1000);
+        }
 
-        const x1 = r1.right - arena.left;
-        const y1 = r1.top + r1.height / 2 - arena.top;
-        const x2 = r2.left - arena.left;
-        const y2 = r2.top + r2.height / 2 - arena.top;
+        function win() {
+            clearInterval(timerInterval!);
+            if (finishTimeE && timerE)
+                finishTimeE.textContent = timerE.textContent;
+            if (modalE) {
+                modalE.classList.remove("pointer-events-none");
+                modalE.classList.add("opacity-100");
+                modalE.querySelector("div")?.classList.remove("scale-90");
+            }
+        }
 
-        const L = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "line",
-        );
-        L.setAttribute("x1", x1);
-        L.setAttribute("y1", y1);
-        L.setAttribute("x2", x2);
-        L.setAttribute("y2", y2);
-        L.setAttribute("class", "match-line");
-        svgE.appendChild(L);
-    }
+        if (resetB) resetB.addEventListener("click", init);
+        if (closeModalB) closeModalB.addEventListener("click", init);
 
-    resetB.onclick = init;
-    init();
-
-    // Responsive lines logic (optional but good)
-    window.onresize = () => {
-        svgE.innerHTML = "";
-        score = 0;
         init();
-    };
+    })();
 </script>

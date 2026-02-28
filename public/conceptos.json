@@ -273,5 +273,85 @@
         "clase": 4,
         "termino": "Compromiso Normativo",
         "definicion": "Sentimiento de obligación moral o lealtad ética de permanecer dentro de la organización."
+    },
+    {
+        "clase": 5,
+        "termino": "Pensión",
+        "definicion": "Prestación económica periódica que recibe un trabajador tras cumplir ciertos requisitos de edad, tiempo de servicios o por incapacidad, otorgada por instituciones de seguridad social."
+    },
+    {
+        "clase": 5,
+        "termino": "Jubilación",
+        "definicion": "Acto administrativo mediante el cual un trabajador en activo pasa a una situación de retiro tras haber cumplido los años de servicio y edad estipulados por la ley."
+    },
+    {
+        "clase": 5,
+        "termino": "Diferencia entre Pensión y Jubilación",
+        "definicion": "La jubilación es el retiro por años de servicio; la pensión es el pago económico derivado de ese retiro, aunque también puede otorgarse por invalidez, viudez u orfandad."
+    },
+    {
+        "clase": 5,
+        "termino": "Seguridad Social en México",
+        "definicion": "Sistema que garantiza el derecho a la salud, asistencia médica, protección de medios de subsistencia y servicios sociales necesarios para el bienestar individual y colectivo."
+    },
+    {
+        "clase": 5,
+        "termino": "Ley del Seguro Social",
+        "definicion": "Marco normativo que rige la seguridad social en México, estableciendo los regímenes obligatorio y voluntario para proteger a los trabajadores y sus familias."
+    },
+    {
+        "clase": 5,
+        "termino": "Riesgos de Trabajo (Componente 1)",
+        "definicion": "Seguro que cubre accidentes y enfermedades a los que están expuestos los trabajadores en ejercicio o con motivo de su labor."
+    },
+    {
+        "clase": 5,
+        "termino": "Enfermedades y Maternidad (Componente 2)",
+        "definicion": "Componente que brinda atención médica, quirúrgica, farmacéutica y hospitalaria, además de subsidios económicos por incapacidad."
+    },
+    {
+        "clase": 5,
+        "termino": "Invalidez y Vida (Componente 3)",
+        "definicion": "Seguro que protege al trabajador contra riesgos que le impidan laborar de forma permanente o en caso de fallecimiento, protegiendo a sus beneficiarios."
+    },
+    {
+        "clase": 5,
+        "termino": "Retiro, Cesantía y Vejez (Componente 4)",
+        "definicion": "Seguro destinado a proporcionar una pensión a los trabajadores que hayan cumplido los años de cotización y edad requerida (60 años para cesantía, 65 para vejez)."
+    },
+    {
+        "clase": 5,
+        "termino": "Guarderías y Prestaciones Sociales (Componente 5)",
+        "definicion": "Servicio que proporciona cuidados infantiles para hijos de trabajadores y actividades de fomento a la salud, cultura y recreación."
+    },
+    {
+        "clase": 5,
+        "termino": "Identificación de Características Personales",
+        "definicion": "Proceso estratégico de evaluar rasgos de personalidad, valores y aptitudes para asegurar un ajuste óptimo entre el individuo y el puesto de trabajo."
+    },
+    {
+        "clase": 5,
+        "termino": "Personalidad",
+        "definicion": "Estructura dinámica de rasgos psicológicos que determinan la forma única en que un individuo piensa, siente y actúa en el entorno organizacional."
+    },
+    {
+        "clase": 5,
+        "termino": "Valores",
+        "definicion": "Principios o convicciones fundamentales que guían el juicio de una persona sobre lo que es importante, ético o deseable en su conducta profesional."
+    },
+    {
+        "clase": 5,
+        "termino": "Aptitudes",
+        "definicion": "Habilidades naturales o potencial de un individuo para aprender y ejecutar tareas específicas con eficacia y eficiencia."
+    },
+    {
+        "clase": 5,
+        "termino": "Cuestionario 16 PF",
+        "definicion": "Instrumento científico de Raymond Cattell que evalúa 16 rasgos primarios de la personalidad para predecir el desempeño y potencial de liderazgo."
+    },
+    {
+        "clase": 5,
+        "termino": "Ética en la Evaluación de Talento",
+        "definicion": "Normas de integridad que aseguran que el uso de pruebas psicométricas sea transparente, objetivo y libre de sesgos discriminatorios."
     }
 ]

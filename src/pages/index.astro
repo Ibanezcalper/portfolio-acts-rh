@@ -3,6 +3,7 @@ import Glosario from "../components/Glosario.astro";
 import Flashcards from "../components/Flashcards.astro";
 import SopaDeLetras from "../components/SopaDeLetras.astro";
 import Match from "../components/Match.astro";
+import Crucigrama from "../components/Crucigrama.astro";
 ---
 
 <html lang="es" class="scroll-smooth">
@@ -96,8 +97,13 @@ import Match from "../components/Match.astro";
 						class="hover:text-blue-600 transition-colors"
 						>Relación</a
 					>
+					<a
+						href="#crossword"
+						class="hover:text-blue-600 transition-colors"
+						>Crucigrama</a
+					>
 				</div>
-				<button class="md:hidden p-2">
+				<button class="md:hidden p-2" id="mobile-menu-btn">
 					<svg
 						class="w-6 h-6"
 						fill="none"
@@ -111,7 +117,50 @@ import Match from "../components/Match.astro";
 					>
 				</button>
 			</div>
+			<div
+				id="mobile-menu"
+				class="hidden md:hidden pt-4 space-y-4 text-center pb-4"
+			>
+				<a
+					href="#glosario"
+					class="block text-[10px] font-black uppercase tracking-widest text-slate-400"
+					>Glosario</a
+				>
+				<a
+					href="#flashcards"
+					class="block text-[10px] font-black uppercase tracking-widest text-slate-400"
+					>Flashcards</a
+				>
+				<a
+					href="#sopa"
+					class="block text-[10px] font-black uppercase tracking-widest text-slate-400"
+					>Sopa</a
+				>
+				<a
+					href="#match"
+					class="block text-[10px] font-black uppercase tracking-widest text-slate-400"
+					>Relación</a
+				>
+				<a
+					href="#crossword"
+					class="block text-[10px] font-black uppercase tracking-widest text-slate-400"
+					>Crucigrama</a
+				>
+			</div>
 		</nav>
+
+		<script>
+			const btn = document.getElementById("mobile-menu-btn");
+			const menu = document.getElementById("mobile-menu");
+			btn?.addEventListener("click", () => {
+				menu?.classList.toggle("hidden");
+			});
+			menu?.querySelectorAll("a").forEach((link) => {
+				link.addEventListener("click", () =>
+					menu.classList.add("hidden"),
+				);
+			});
+		</script>
 
 		<main>
 			<!-- Hero Header -->
@@ -130,7 +179,7 @@ import Match from "../components/Match.astro";
 						<span
 							class="inline-block px-4 py-1.5 bg-white border border-slate-100 shadow-sm rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-blue-600"
 						>
-							Ecosistema Interactivo v2.0
+							Ecosistema Interactivo v2.5
 						</span>
 						<h1
 							class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] text-slate-900"
@@ -200,6 +249,13 @@ import Match from "../components/Match.astro";
 
 			<section id="match" class="scroll-mt-32 border-t border-slate-100">
 				<Match client:load />
+			</section>
+
+			<section
+				id="crossword"
+				class="scroll-mt-32 border-t border-slate-100 bg-white"
+			>
+				<Crucigrama client:load />
 			</section>
 		</main>
 
