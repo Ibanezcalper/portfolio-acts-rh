@@ -21,13 +21,13 @@ const colorMap: Record<number, string> = {
 
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
         <div class="max-w-2xl">
-            <span class="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-4">
+            <span class="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4">
                 Diccionario de Competencias
             </span>
-            <h2 class="text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-                Glosario <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Estratégico</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4 text-balance">
+                Glosario <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 italic">Estratégico</span>
             </h2>
-            <p class="text-lg text-slate-500 font-medium">
+            <p class="text-lg text-slate-500 font-medium text-pretty">
                 Navega por los pilares de la gestión moderna. Una base de conocimientos dinámica diseñada para expertos en Capital Humano.
             </p>
         </div>
@@ -44,26 +44,26 @@ const colorMap: Record<number, string> = {
                     type="text" 
                     id="search-input" 
                     placeholder="Filtrar por término o concepto..." 
-                    class="w-full md:w-80 pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-medium text-slate-700"
+                    class="w-full md:w-80 pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-100 focus:border-blue-500 focus:bg-white outline-none transition-all font-medium text-slate-700 placeholder:text-slate-300"
                 />
             </div>
         </div>
     </div>
 
     <!-- Filter Pills -->
-    <div class="flex flex-wrap gap-3 mb-12" id="filter-container">
+    <div class="flex flex-wrap gap-3 mb-12 touch-manipulation" id="filter-container">
         <button 
-            class="filter-pill active px-6 py-2.5 rounded-xl text-sm font-bold tracking-wide transition-all duration-300 border-2" 
+            class="filter-pill active px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 border-2 focus-visible:ring-2 focus-visible:ring-slate-900 outline-none" 
             data-clase="all"
         >
-            Todos los Conceptos
+            Todos
         </button>
         {classes.map(clase => (
             <button 
-                class="filter-pill px-6 py-2.5 rounded-xl text-sm font-bold tracking-wide transition-all duration-300 border-2 border-transparent bg-white text-slate-600 shadow-sm hover:border-slate-200" 
-                data-clase={clase}
+                class="filter-pill px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 border-2 border-transparent bg-white text-slate-500 shadow-sm hover:border-slate-200 focus-visible:ring-2 focus-visible:ring-blue-500 outline-none" 
+                data-clase={clase.toString()}
             >
-                Clase {clase}
+                Módulo 0{clase}
             </button>
         ))}
     </div>
@@ -75,7 +75,7 @@ const colorMap: Record<number, string> = {
                 class="concept-card bg-white/70 backdrop-blur-xl p-8 rounded-[2.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(59,130,246,0.1)] transition-all duration-500 group relative overflow-hidden"
                 data-termino={c.termino.toLowerCase()}
                 data-definicion={c.definicion.toLowerCase()}
-                data-clase={c.clase}
+                data-clase={c.clase.toString()}
             >
                 <!-- Class Indicator -->
                 <div class={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${colorMap[c.clase] || colorMap[6]} opacity-[0.03] rounded-bl-[4rem] group-hover:opacity-[0.08] transition-opacity`}></div>
@@ -87,11 +87,11 @@ const colorMap: Record<number, string> = {
                     <div class={`w-2 h-2 rounded-full bg-gradient-to-r ${colorMap[c.clase] || colorMap[6]}`}></div>
                 </div>
 
-                <h3 class="text-2xl font-extrabold text-slate-800 mb-4 group-hover:text-blue-600 transition-colors">
+                <h3 class="text-2xl font-extrabold text-slate-800 mb-4 group-hover:text-blue-600 transition-colors tracking-tight text-pretty">
                     {c.termino}
                 </h3>
                 
-                <p class="text-slate-500 leading-relaxed font-medium text-sm lg:text-base">
+                <p class="text-slate-500 leading-relaxed font-medium text-sm lg:text-base text-pretty">
                     {c.definicion}
                 </p>
                 
@@ -114,7 +114,7 @@ const colorMap: Record<number, string> = {
         </div>
         <h3 class="text-2xl font-bold text-slate-800">No encontramos coincidencias</h3>
         <p class="text-slate-400 mt-2 font-medium max-w-sm mx-auto tracking-tight">Prueba con palabras clave más generales o limpia los filtros de clase.</p>
-        <button id="clear-filters" class="mt-8 px-8 py-3 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:scale-105 active:scale-95 transition-all">
+        <button id="clear-filters" class="mt-8 px-8 py-3 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:scale-105 active:scale-95 transition-all focus-visible:ring-4 focus-visible:ring-blue-100 outline-none">
             Limpiar búsqueda
         </button>
     </div>
@@ -132,7 +132,6 @@ const colorMap: Record<number, string> = {
         will-change: transform, opacity;
     }
 
-    /* Animation for entering cards */
     @keyframes card-in {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -194,7 +193,7 @@ const colorMap: Record<number, string> = {
 
 
         clearBtn?.addEventListener('click', () => {
-            searchInput.value = '';
+            if (searchInput) searchInput.value = '';
             query = '';
             pills[0].dispatchEvent(new Event('click'));
             update();
