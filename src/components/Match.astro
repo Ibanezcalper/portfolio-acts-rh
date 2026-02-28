@@ -2,142 +2,176 @@
 import conceptosData from "../../public/conceptos.json";
 ---
 
-<div class="max-w-4xl mx-auto px-4 py-16" id="match-game-container">
-    <div class="text-center mb-12">
-        <h2 class="text-4xl font-extrabold text-blue-900 mb-2 italic">
-            Juego de Relación RH
-        </h2>
-        <p class="text-gray-600 font-medium">
-            Une cada término con su definición correcta haciendo clic en ambos.
-        </p>
+<div class="relative py-24 px-6 bg-white overflow-hidden" id="match-expert">
+    <!-- Decorative Mesh -->
+    <div
+        class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"
+    >
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
-        <!-- Terms Column -->
-        <div class="space-y-4" id="terms-column">
-            <h3
-                class="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2 mb-4"
+    <div class="max-w-6xl mx-auto relative z-10">
+        <header class="text-center mb-20">
+            <span
+                class="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4"
             >
-                Término
-            </h3>
-            <!-- Terms populated by JS -->
-        </div>
-
-        <!-- Definitions Column -->
-        <div class="space-y-4" id="defs-column">
-            <h3
-                class="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2 mb-4 text-right"
+                Test de Correlación
+            </span>
+            <h2
+                class="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter mb-6"
             >
-                Definición
-            </h3>
-            <!-- Definitions populated by JS -->
-        </div>
+                Relación <span class="italic text-indigo-600">Conceptual</span>
+            </h2>
+            <p
+                class="text-slate-500 font-medium max-w-xl mx-auto leading-relaxed"
+            >
+                Demuestra tu dominio técnico conectando cada término con su
+                definición operativa. El éxito requiere precisión estratégica.
+            </p>
+        </header>
 
-        <!-- SVG for lines -->
-        <svg
-            id="match-lines"
-            class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
-        ></svg>
-    </div>
-
-    <div class="mt-16 flex justify-center gap-4">
-        <button
-            id="reset-match"
-            class="px-8 py-3 bg-gray-900 hover:bg-black text-white rounded-xl font-bold transition-all transform active:scale-95 shadow-xl flex items-center gap-2"
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 relative"
+            id="match-arena"
         >
+            <!-- Terms -->
+            <div class="space-y-6" id="terms-col">
+                <h3
+                    class="text-xs font-black text-slate-400 uppercase tracking-widest mb-10 pl-4 border-l-4 border-indigo-500"
+                >
+                    Término Estratégico
+                </h3>
+                <!-- JS Populated -->
+            </div>
+
+            <!-- Definitions -->
+            <div class="space-y-6" id="defs-col">
+                <h3
+                    class="text-xs font-black text-slate-400 uppercase tracking-widest mb-10 pl-4 border-l-4 border-emerald-500"
+                >
+                    Definición Operativa
+                </h3>
+                <!-- JS Populated -->
+            </div>
+
+            <!-- SVG Overlay -->
             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                id="match-svg"
+                class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
+            ></svg>
+        </div>
+
+        <div class="mt-20 flex flex-col items-center gap-6">
+            <div
+                class="px-6 py-2 bg-slate-50 rounded-full border border-slate-100 text-slate-400 font-bold text-[10px] tracking-[0.3em] uppercase"
             >
-                <path
-                    fill-rule="evenodd"
-                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 110 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61 5.002 5.002 0 008.715 1.333H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            Reiniciar Juego
-        </button>
+                Progreso: <span id="match-score" class="text-indigo-600"
+                    >0/5</span
+                >
+            </div>
+
+            <button
+                id="reset-match"
+                class="px-12 py-5 bg-slate-900 hover:bg-black text-white rounded-[2rem] font-black text-sm transition-all shadow-2xl shadow-slate-900/20 active:scale-95 group flex items-center gap-4"
+            >
+                <svg
+                    class="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2.5"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    ></path>
+                </svg>
+                REINICIAR DESAFÍO
+            </button>
+        </div>
     </div>
 </div>
 
 <style>
     .match-item {
         background: white;
-        border: 2px solid #e5e7eb;
-        padding: 1.25rem 1.5rem;
-        border-radius: 1rem;
+        border: 2px solid #f1f5f9;
+        padding: 1.5rem 2rem;
+        border-radius: 1.5rem;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        font-weight: 700;
+        color: #1e293b;
         position: relative;
         z-index: 10;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 5rem;
+        min-height: 6rem;
         text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
     }
 
-    .match-item:hover:not(.matched):not(.selected) {
-        border-color: #3b82f6;
-        background: #eff6ff;
-        transform: translateY(-2px);
+    .match-item:hover:not(.matched):not(.sel) {
+        border-color: #6366f1;
+        background: #f8fafc;
+        transform: translateX(4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
     }
 
-    .match-item.selected {
-        border-color: #3b82f6;
-        background: #3b82f6;
+    .def-item:hover:not(.matched):not(.sel) {
+        transform: translateX(-4px);
+    }
+
+    .match-item.sel {
+        background: #1e293b;
         color: white;
-        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        border-color: #1e293b;
+        box-shadow: 0 10px 30px rgba(30, 41, 59, 0.2);
+        transform: scale(1.05);
     }
 
     .match-item.matched {
-        border-color: #22c55e;
         background: #f0fdf4;
-        color: #166534;
-        opacity: 0.8;
+        border-color: #10b981;
+        color: #065f46;
         cursor: default;
+        opacity: 0.7;
     }
 
-    .match-item.wrong {
-        animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    .match-item.error {
+        animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         border-color: #ef4444;
         background: #fef2f2;
+        color: #991b1b;
     }
 
     @keyframes shake {
-        10%,
-        90% {
-            transform: translate3d(-1px, 0, 0);
+        0%,
+        100% {
+            transform: translateX(0);
         }
         20%,
-        80% {
-            transform: translate3d(2px, 0, 0);
-        }
-        30%,
-        50%,
-        70% {
-            transform: translate3d(-4px, 0, 0);
+        60% {
+            transform: translateX(-4px);
         }
         40%,
-        60% {
-            transform: translate3d(4px, 0, 0);
+        80% {
+            transform: translateX(4px);
         }
     }
 
-    .line {
-        stroke: #3b82f6;
+    .match-line {
+        stroke: #6366f1;
         stroke-width: 4px;
         stroke-linecap: round;
         stroke-dasharray: 1000;
         stroke-dashoffset: 1000;
-        animation: draw 0.6s forwards ease-out;
-        opacity: 0.4;
+        animation: drawLine 0.8s forwards cubic-bezier(0.4, 0, 0.2, 1);
+        filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
     }
 
-    @keyframes draw {
+    @keyframes drawLine {
         to {
             stroke-dashoffset: 0;
         }
@@ -145,140 +179,133 @@ import conceptosData from "../../public/conceptos.json";
 </style>
 
 <script define:vars={{ conceptosData }}>
-    let selectedTerm = null;
-    let selectedDef = null;
-    let matchesFound = 0;
-    const TOTAL_MATCHES = 5;
+    let selT = null;
+    let selD = null;
+    let score = 0;
+    const TOTAL = 5;
 
-    const termsCol = document.getElementById("terms-column");
-    const defsCol = document.getElementById("defs-column");
-    const resetBtn = document.getElementById("reset-match");
-    const svgEl = document.getElementById("match-lines");
+    const tCol = document.getElementById("terms-col");
+    const dCol = document.getElementById("defs-col");
+    const resetB = document.getElementById("reset-match");
+    const scB = document.getElementById("match-score");
+    const svgE = document.getElementById("match-svg");
 
-    function initMatchGame() {
-        termsCol.querySelectorAll(".match-item").forEach((e) => e.remove());
-        defsCol.querySelectorAll(".match-item").forEach((e) => e.remove());
-        svgEl.innerHTML = "";
-        selectedTerm = null;
-        selectedDef = null;
-        matchesFound = 0;
+    function init() {
+        // Cleanup old cards (careful with headers)
+        tCol.querySelectorAll(".match-item").forEach((e) => e.remove());
+        dCol.querySelectorAll(".match-item").forEach((e) => e.remove());
+        svgE.innerHTML = "";
+        selT = null;
+        selD = null;
+        score = 0;
+        scB.textContent = `0/${TOTAL}`;
 
-        // Pick 5 random unique concepts
-        const pool = conceptosData.sort(() => 0.5 - Math.random());
-        const selected = pool.slice(0, TOTAL_MATCHES);
-
-        // Shuffle terms and defs independently
-        const terms = selected
-            .map((s) => ({ id: s.termino, text: s.termino }))
+        const pool = conceptosData
+            .sort(() => 0.5 - Math.random())
+            .slice(0, TOTAL);
+        const terms = [...pool]
+            .map((p) => ({ id: p.termino, val: p.termino }))
             .sort(() => 0.5 - Math.random());
-        const defs = selected
-            .map((s) => ({ id: s.termino, text: s.definicion }))
+        const defs = [...pool]
+            .map((p) => ({ id: p.termino, val: p.definicion }))
             .sort(() => 0.5 - Math.random());
 
         terms.forEach((t) => {
             const el = document.createElement("div");
-            el.className = "match-item term-item";
-            el.innerText = t.text;
+            el.className = "match-item";
+            el.textContent = t.val;
             el.dataset.id = t.id;
-            el.onclick = () => handleTermClick(el);
-            termsCol.appendChild(el);
+            el.onclick = () => {
+                if (el.classList.contains("matched") || el === selT) return;
+                if (selT) selT.classList.remove("sel");
+                selT = el;
+                el.classList.add("sel");
+                check();
+            };
+            tCol.appendChild(el);
         });
 
         defs.forEach((d) => {
             const el = document.createElement("div");
             el.className =
-                "match-item def-item text-sm italic font-medium leading-relaxed p-4";
-            el.innerText = d.text;
+                "match-item def-item text-sm font-medium italic leading-relaxed px-6";
+            el.textContent = d.val;
             el.dataset.id = d.id;
-            el.onclick = () => handleDefClick(el);
-            defsCol.appendChild(el);
+            el.onclick = () => {
+                if (el.classList.contains("matched") || el === selD) return;
+                if (selD) selD.classList.remove("sel");
+                selD = el;
+                el.classList.add("sel");
+                check();
+            };
+            dCol.appendChild(el);
         });
     }
 
-    function handleTermClick(el) {
-        if (el.classList.contains("matched") || el === selectedTerm) return;
-
-        if (selectedTerm) selectedTerm.classList.remove("selected");
-        selectedTerm = el;
-        el.classList.add("selected");
-        checkMatch();
-    }
-
-    function handleDefClick(el) {
-        if (el.classList.contains("matched") || el === selectedDef) return;
-
-        if (selectedDef) selectedDef.classList.remove("selected");
-        selectedDef = el;
-        el.classList.add("selected");
-        checkMatch();
-    }
-
-    function checkMatch() {
-        if (selectedTerm && selectedDef) {
-            if (selectedTerm.dataset.id === selectedDef.dataset.id) {
-                // SUCCESS
-                selectedTerm.classList.remove("selected");
-                selectedDef.classList.remove("selected");
-                selectedTerm.classList.add("matched");
-                selectedDef.classList.add("matched");
-
-                drawLine(selectedTerm, selectedDef);
-
-                selectedTerm = null;
-                selectedDef = null;
-                matchesFound++;
-
-                if (matchesFound === TOTAL_MATCHES) {
+    function check() {
+        if (selT && selD) {
+            if (selT.dataset.id === selD.dataset.id) {
+                selT.classList.replace("sel", "matched");
+                selD.classList.replace("sel", "matched");
+                draw(selT, selD);
+                selT = null;
+                selD = null;
+                score++;
+                scB.textContent = `${score}/${TOTAL}`;
+                if (score === TOTAL)
                     setTimeout(
                         () =>
                             alert(
-                                "¡Exclente! Has relacionado todos los conceptos correctamente.",
+                                "¡IMPECABLE! Has completado el test de correlación con éxito.",
                             ),
                         400,
                     );
-                }
             } else {
-                // FAIL
-                const t = selectedTerm;
-                const d = selectedDef;
-                t.classList.add("wrong");
-                d.classList.add("wrong");
-
+                const a = selT;
+                const b = selD;
+                a.classList.add("error");
+                b.classList.add("error");
                 setTimeout(() => {
-                    t.classList.remove("wrong", "selected");
-                    d.classList.remove("wrong", "selected");
+                    a.classList.remove("error", "sel");
+                    b.classList.remove("error", "sel");
                 }, 500);
-
-                selectedTerm = null;
-                selectedDef = null;
+                selT = null;
+                selD = null;
             }
         }
     }
 
-    function drawLine(el1, el2) {
-        const rect1 = el1.getBoundingClientRect();
-        const rect2 = el2.getBoundingClientRect();
-        const parentRect = svgEl.getBoundingClientRect();
+    function draw(e1, e2) {
+        const r1 = e1.getBoundingClientRect();
+        const r2 = e2.getBoundingClientRect();
+        const arena = document
+            .getElementById("match-arena")
+            .getBoundingClientRect();
 
-        const x1 = rect1.right - parentRect.left;
-        const y1 = rect1.top + rect1.height / 2 - parentRect.top;
-        const x2 = rect2.left - parentRect.left;
-        const y2 = rect2.top + rect2.height / 2 - parentRect.top;
+        const x1 = r1.right - arena.left;
+        const y1 = r1.top + r1.height / 2 - arena.top;
+        const x2 = r2.left - arena.left;
+        const y2 = r2.top + r2.height / 2 - arena.top;
 
-        const line = document.createElementNS(
+        const L = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "line",
         );
-        line.setAttribute("x1", x1);
-        line.setAttribute("y1", y1);
-        line.setAttribute("x2", x2);
-        line.setAttribute("y2", y2);
-        line.setAttribute("class", "line");
-        svgEl.appendChild(line);
+        L.setAttribute("x1", x1);
+        L.setAttribute("y1", y1);
+        L.setAttribute("x2", x2);
+        L.setAttribute("y2", y2);
+        L.setAttribute("class", "match-line");
+        svgE.appendChild(L);
     }
 
-    resetBtn.addEventListener("click", initMatchGame);
-    initMatchGame();
+    resetB.onclick = init;
+    init();
 
-    // Recalculate lines on resize if needed? (optional for this context)
+    // Responsive lines logic (optional but good)
+    window.onresize = () => {
+        svgE.innerHTML = "";
+        score = 0;
+        init();
+    };
 </script>
