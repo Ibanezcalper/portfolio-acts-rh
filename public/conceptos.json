@@ -353,5 +353,75 @@
         "clase": 5,
         "termino": "Ética en la Evaluación de Talento",
         "definicion": "Normas de integridad que aseguran que el uso de pruebas psicométricas sea transparente, objetivo y libre de sesgos discriminatorios."
+    },
+    {
+        "clase": 6,
+        "termino": "Grupo de Trabajo",
+        "definicion": "Conjunto de dos o más individuos que interactúan y son independientes, reuniéndose para lograr objetivos específicos sin necesidad de sinergia positiva."
+    },
+    {
+        "clase": 6,
+        "termino": "Equipo de Trabajo",
+        "definicion": "Grupo cuyos esfuerzos individuales resultan en un desempeño mayor que la suma de sus aportaciones, gracias a la sinergia positiva y responsabilidad mutua."
+    },
+    {
+        "clase": 6,
+        "termino": "Sinergia",
+        "definicion": "Efecto mediante el cual el resultado del trabajo conjunto es superior a la suma de los resultados individuales; es positiva en equipos y neutral en grupos."
+    },
+    {
+        "clase": 6,
+        "termino": "Liderazgo",
+        "definicion": "Habilidad para influir en un grupo y dirigirlo con entusiasmo hacia el logro de un objetivo o un conjunto de metas compartidas."
+    },
+    {
+        "clase": 6,
+        "termino": "Motivación",
+        "definicion": "Procesos que inciden en la intensidad, dirección y persistencia del esfuerzo que realiza una persona para alcanzar un objetivo organizacional."
+    },
+    {
+        "clase": 6,
+        "termino": "Intensidad (Motivación)",
+        "definicion": "Elemento de la motivación que se refiere a cuánto esfuerzo e ímpetu invierte una persona en una tarea."
+    },
+    {
+        "clase": 6,
+        "termino": "Dirección (Motivación)",
+        "definicion": "Canalización del esfuerzo hacia metas que benefician a la organización, asegurando que la energía no se desperdicie."
+    },
+    {
+        "clase": 6,
+        "termino": "Persistencia (Motivación)",
+        "definicion": "Medida de cuánto tiempo una persona puede mantener su esfuerzo y compromiso antes de desistir."
+    },
+    {
+        "clase": 6,
+        "termino": "Comunicación Organizacional",
+        "definicion": "Proceso de transferencia y comprensión de significados entre los miembros de una organización, fundamental para el control y la motivación."
+    },
+    {
+        "clase": 6,
+        "termino": "Barreras de la Comunicación",
+        "definicion": "Obstáculos como el filtrado, la percepción selectiva y la sobrecarga de información que distorsionan el mensaje entre emisor y receptor."
+    },
+    {
+        "clase": 6,
+        "termino": "Sobrecarga de Información",
+        "definicion": "Condición en la que el flujo de datos excede la capacidad de procesamiento de un individuo, provocando que se ignore o pierda información clave."
+    },
+    {
+        "clase": 6,
+        "termino": "Plan de Vida y Carrera",
+        "definicion": "Proceso de planeación profesional y personal que permite tomar decisiones efectivas para alcanzar metas y dar sentido a la trayectoria laboral."
+    },
+    {
+        "clase": 6,
+        "termino": "Metas SMART",
+        "definicion": "Metodología para definir objetivos que sean Específicos, Medibles, Alcanzables, Relevantes y con un Tiempo determinado."
+    },
+    {
+        "clase": 6,
+        "termino": "Pertenencia vs Encajar",
+        "definicion": "Diferencia entre ser fiel a uno mismo dentro de un grupo (pertenecer) frente a modificar el comportamiento para cumplir expectativas ajenas (encajar)."
     }
 ]

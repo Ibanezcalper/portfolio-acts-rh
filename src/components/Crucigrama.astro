@@ -3,7 +3,7 @@ import conceptosData from "../../public/conceptos.json";
 ---
 
 <div
-    class="relative py-24 px-6 bg-slate-50 overflow-hidden"
+    class="relative pt-12 pb-24 px-6 bg-slate-50 overflow-hidden"
     id="crucigrama-expert"
 >
     <!-- Background Decor -->
@@ -13,640 +13,742 @@ import conceptosData from "../../public/conceptos.json";
     </div>
 
     <div class="max-w-7xl mx-auto relative z-10">
-        <div class="flex flex-col lg:flex-row gap-16 items-start">
-            <!-- Header & Clues -->
-            <div class="lg:w-1/3 sticky top-32">
-                <header class="mb-12">
-                    <span
-                        class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest mb-4"
-                    >
-                        Desafío de Lógica
-                    </span>
-                    <h2
-                        class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-none text-balance"
-                    >
-                        Crucigrama <span class="text-emerald-600">Técnico</span>
-                    </h2>
-                    <p
-                        class="text-slate-500 font-medium leading-relaxed text-pretty"
-                    >
-                        Resuelve el crucigrama utilizando las definiciones de
-                        los conceptos estratégicos de Recursos Humanos.
-                    </p>
-                </header>
-
-                <div class="space-y-8">
-                    <div
-                        class="bg-white/50 p-6 rounded-2xl border border-white shadow-sm"
-                    >
-                        <label
-                            class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"
-                            >Cantidad de Palabras</label
-                        >
-                        <div class="flex gap-2" id="word-count-selector">
-                            <button
-                                data-count="8"
-                                class="flex-1 py-2 rounded-xl border-2 border-slate-100 text-xs font-bold transition-all hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 data-[active=true]:text-emerald-700"
-                                >8</button
-                            >
-                            <button
-                                data-count="10"
-                                class="flex-1 py-2 rounded-xl border-2 border-slate-100 text-xs font-bold transition-all hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 data-[active=true]:text-emerald-700"
-                                >10</button
-                            >
-                            <button
-                                data-count="12"
-                                class="flex-1 py-2 rounded-xl border-2 border-slate-100 text-xs font-bold transition-all hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 data-[active=true]:text-emerald-700"
-                                >12</button
-                            >
-                            <button
-                                data-count="15"
-                                class="flex-1 py-2 rounded-xl border-2 border-slate-100 text-xs font-bold transition-all hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 data-[active=true]:text-emerald-700"
-                                >15</button
-                            >
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-4">
-                        <span
-                            id="timer-badge-cw"
-                            class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg font-mono font-bold tracking-tighter"
-                            >00:00</span
-                        >
-                    </div>
-
-                    <div
-                        class="max-h-[300px] overflow-y-auto pr-2 custom-scrollbar"
-                    >
-                        <h3
-                            class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2"
-                        >
-                            <span class="w-2 h-2 bg-emerald-500 rounded-full"
-                            ></span> Horizontales
-                        </h3>
-                        <ul
-                            id="clues-across"
-                            class="space-y-3 text-sm font-medium text-slate-600"
-                        >
-                        </ul>
-
-                        <h3
-                            class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mt-8 mb-4 flex items-center gap-2"
-                        >
-                            <span class="w-2 h-2 bg-blue-500 rounded-full"
-                            ></span> Verticales
-                        </h3>
-                        <ul
-                            id="clues-down"
-                            class="space-y-3 text-sm font-medium text-slate-600"
-                        >
-                        </ul>
-                    </div>
-                </div>
-
-                <button
-                    id="reset-crossword"
-                    class="mt-12 w-full py-5 bg-slate-900 hover:bg-black text-white rounded-2xl font-black text-sm transition-all shadow-xl shadow-slate-900/20 active:scale-95 group flex items-center justify-center gap-3 focus-visible:ring-4 focus-visible:ring-emerald-100 outline-none"
+        <!-- TOP BAR: Header (Simplified) -->
+        <div
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 px-4"
+        >
+            <header>
+                <span
+                    class="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-[9px] font-black uppercase tracking-widest mb-2"
+                    >Desafío Técnico</span
                 >
-                    REGENERAR CRUCIGRAMA
-                </button>
-            </div>
+                <h2
+                    class="text-3xl font-black text-slate-900 tracking-tighter uppercase leading-none"
+                >
+                    Crucigrama
+                </h2>
+            </header>
 
-            <!-- Grid -->
-            <div class="lg:w-2/3 w-full">
-                <div class="relative group select-none">
-                    <!-- Victory Modal Overlay -->
-                    <div
-                        id="victory-modal-cw"
-                        class="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500 rounded-[3rem]"
+            <!-- Global Stats -->
+            <div
+                class="flex items-center gap-6 bg-slate-50/50 p-4 rounded-3xl border border-slate-100 shadow-sm"
+            >
+                <div class="text-center border-r border-slate-200 pr-6">
+                    <label
+                        class="block text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1"
+                        >PROGRESO</label
                     >
-                        <div
-                            class="bg-white p-12 rounded-[2.5rem] shadow-2xl text-center transform scale-90 transition-transform duration-500 max-w-sm mx-auto"
-                        >
-                            <div
-                                class="w-24 h-24 bg-emerald-100/50 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl animate-bounce"
-                            >
-                                💡
-                            </div>
-                            <h4
-                                class="text-3xl font-black text-slate-900 mb-4 tracking-tighter"
-                            >
-                                ¡MAGNÍFICO!
-                            </h4>
-                            <p class="text-slate-500 font-medium mb-8">
-                                Has resuelto el crucigrama en <span
-                                    id="finish-time-cw"
-                                    class="text-emerald-600 font-bold"
-                                    >00:00</span
-                                >.
-                            </p>
-                            <button
-                                id="close-modal-cw"
-                                class="w-full py-5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-sm transition-all shadow-xl shadow-emerald-900/20 focus-visible:ring-4 focus-visible:ring-emerald-100 outline-none"
-                                >CONTINUAR APRENDIENDO</button
-                            >
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto pb-6 custom-scrollbar">
-                        <div
-                            id="crossword-grid"
-                            class="bg-white p-4 md:p-6 rounded-[2rem] md:rounded-[3rem] border-4 md:border-8 border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] grid mx-auto w-fit min-h-0 relative touch-manipulation"
-                        >
-                            <!-- Floating Tooltip -->
-                            <div
-                                id="cw-tooltip"
-                                class="absolute z-[60] bg-slate-900 text-white p-4 rounded-2xl shadow-2xl text-xs font-medium max-w-[200px] opacity-0 pointer-events-none transition-all duration-300 -translate-y-2"
-                            >
-                                <!-- JS Populated -->
-                                <div
-                                    class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-slate-900"
-                                >
-                                </div>
-                            </div>
-                            <!-- JS Populated Grid -->
-                        </div>
-                    </div>
+                    <span
+                        id="score-badge-cw"
+                        class="text-sm font-black text-emerald-600 tracking-tighter"
+                        >0 / 0</span
+                    >
+                </div>
+                <div class="text-center border-r border-slate-200 pr-6">
+                    <label
+                        class="block text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1"
+                        >CRONÓMETRO</label
+                    >
+                    <span
+                        id="timer-badge-cw"
+                        class="text-sm font-black text-slate-700 font-mono tracking-tighter"
+                        >00:00</span
+                    >
+                </div>
+                <div class="flex gap-2" id="word-count-selector">
+                    <button
+                        data-count="6"
+                        class="w-8 h-8 rounded-lg border-2 border-slate-100 text-[9px] font-black transition-all data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 text-slate-400 data-[active=true]:text-emerald-700 uppercase"
+                        >6</button
+                    >
+                    <button
+                        data-count="8"
+                        class="w-8 h-8 rounded-lg border-2 border-slate-100 text-[9px] font-black transition-all data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 text-slate-400 data-[active=true]:text-emerald-700 uppercase"
+                        >8</button
+                    >
+                    <button
+                        data-count="10"
+                        class="w-8 h-8 rounded-lg border-2 border-slate-100 text-[9px] font-black transition-all data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 text-slate-400 data-[active=true]:text-emerald-700 uppercase"
+                        >10</button
+                    >
+                    <button
+                        data-count="12"
+                        class="w-8 h-8 rounded-lg border-2 border-slate-100 text-[9px] font-black transition-all data-[active=true]:border-emerald-500 data-[active=true]:bg-emerald-50 text-slate-400 data-[active=true]:text-emerald-700 uppercase"
+                        >12</button
+                    >
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<style is:global>
-    #crossword-grid {
-        --cell-size: 28px;
-        --cell-gap: 4px;
-        gap: var(--cell-gap);
-    }
-    @media (min-width: 480px) {
-        #crossword-grid {
-            --cell-size: 34px;
-            --cell-gap: 6px;
-        }
-    }
-    @media (min-width: 768px) {
-        #crossword-grid {
-            --cell-size: 42px;
-            --cell-gap: 10px;
-        }
-    }
-    .cw-cell {
-        width: var(--cell-size);
-        height: var(--cell-size);
-        aspect-ratio: 1/1;
-        background: #f1f5f9;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        transition: all 0.2s;
-        box-sizing: border-box;
-    }
-    .cw-cell.active {
-        background: white;
-        border: 2px solid #e2e8f0;
-        cursor: text;
-    }
-    .cw-cell.active:hover {
-        border-color: #10b981;
-    }
-    .cw-cell.focused {
-        border-color: #10b981 !important;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-        z-index: 10;
-    }
-    .cw-cell .num {
-        position: absolute;
-        top: 2px;
-        left: 4px;
-        font-size: 8px;
-        font-weight: 900;
-        color: #94a3b8;
-        pointer-events: none;
-    }
-    @media (min-width: 768px) {
-        .cw-cell .num {
-            font-size: 9px;
-        }
-    }
-    .cw-cell input {
-        width: 100%;
-        height: 100%;
-        border: none;
-        background: transparent;
-        text-align: center;
-        font-family: "Outfit", sans-serif;
-        font-weight: 800;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        color: #1e293b;
-        outline: none;
-        padding: 0;
-    }
-    @media (min-width: 768px) {
-        .cw-cell input {
-            font-size: 1.1rem;
-        }
-    }
-    .cw-cell.correct {
-        background: #f0fdf4;
-        border-color: #10b981;
-    }
-    .cw-cell.correct input {
-        color: #059669;
-    }
-    .clue-item {
-        padding: 8px 12px;
-        border-radius: 10px;
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-    .clue-item:hover {
-        background: #f8fafc;
-        color: #10b981;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #e2e8f0;
-        border-radius: 10px;
-    }
-</style>
+        <!-- MAIN CONSOLE: Balanced side-by-side -->
 
-<script>
-    import conceptosData from "../../public/conceptos.json";
+        <div
+            class="min-h-[600px] bg-slate-50 flex flex-col relative overflow-hidden"
+        >
+            <div
+                class="flex-1 w-full h-full flex items-start justify-center overflow-auto custom-scrollbar p-12 md:p-16 relative z-10"
+            >
+                <div
+                    id="crossword-grid"
+                    class="grid mx-auto w-fit min-h-0 relative touch-manipulation select-none p-0"
+                >
+                    <!-- Tooltip Element -->
+                    <div
+                        id="cw-tooltip"
+                        class="fixed md:absolute opacity-0 pointer-events-none z-[100] bg-slate-900/90 text-white p-3 rounded-xl shadow-2xl transition-all duration-200 text-xs md:text-sm max-w-[250px] md:max-w-[300px] leading-tight border border-white/10 backdrop-blur-md"
+                        style="transform: translate(-50%, -100%) translateY(-24px);"
+                    >
+                    </div>
+                </div>
+            </div>
 
-    function runCrucigrama() {
-        const MAX_SIZE = 22;
-        let currentLimit = 10;
-        let grid: any[][] = [];
-        let words: any[] = [];
-        let startTime: number | null = null;
-        let timerInterval: any = null;
+            <!-- JS Populated Grid -->
+        </div>
 
-        const gridE = document.getElementById("crossword-grid");
-        const acrossE = document.getElementById("clues-across");
-        const downE = document.getElementById("clues-down");
-        const resetB = document.getElementById("reset-crossword");
-        const timerE = document.getElementById("timer-badge-cw");
-        const modalE = document.getElementById("victory-modal-cw");
-        const finishTimeE = document.getElementById("finish-time-cw");
-        const closeModalB = document.getElementById("close-modal-cw");
-        const countSelectors = document.querySelectorAll(
-            "#word-count-selector button",
-        );
-        const tooltipE = document.getElementById("cw-tooltip");
-
-        function init() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = null;
-            startTime = null;
-            if (timerE) timerE.textContent = "00:00";
-            if (gridE) gridE.innerHTML = "";
-            if (acrossE) acrossE.innerHTML = "";
-            if (downE) downE.innerHTML = "";
-            if (gridE && tooltipE) gridE.appendChild(tooltipE);
-
-            if (modalE) {
-                modalE.classList.add("pointer-events-none");
-                modalE.classList.remove("opacity-100");
-                modalE.querySelector("div")?.classList.add("scale-90");
+        <style is:global>
+            #crossword-grid {
+                --cell-size: 26px;
+                --cell-gap: 1px;
+                gap: var(--cell-gap);
             }
+            @media (min-width: 480px) {
+                #crossword-grid {
+                    --cell-size: 28px;
+                    --cell-gap: 1px;
+                }
+            }
+            @media (min-width: 768px) {
+                #crossword-grid {
+                    --cell-size: 32px;
+                    --cell-gap: 1px;
+                }
+            }
+            .cw-cell {
+                width: var(--cell-size);
+                height: var(--cell-size);
+                aspect-ratio: 1/1;
+                background: #f8fafc;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                transition: all 0.2s;
+                box-sizing: border-box;
+            }
+            .cw-cell.active {
+                background: white;
+                border: 2px solid #e2e8f0;
+                cursor: text;
+            }
+            .cw-cell.active:hover {
+                border-color: #cbd5e1;
+            }
+            .cw-cell.word-highlight {
+                background: #ecfdf5 !important;
+                border-color: #10b981 !important;
+            }
+            .cw-cell.focused {
+                background: #10b981 !important;
+                border: 2px solid #059669 !important;
+                box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+                z-index: 20 !important;
+            }
+            .cw-cell.focused input {
+                color: white !important;
+            }
+            .cw-cell.correct {
+                background: #f8fafc !important;
+                border-color: #e2e8f0 !important;
+            }
+            .cw-cell.correct input {
+                color: #10b981 !important;
+                font-weight: 800;
+                pointer-events: none;
+            }
+            .cw-cell .num {
+                position: absolute;
+                top: 2px;
+                left: 4px;
+                font-size: 8px;
+                font-weight: 900;
+                color: #94a3b8;
+                pointer-events: none;
+            }
+            @media (min-width: 768px) {
+                .cw-cell .num {
+                    font-size: 9px;
+                }
+            }
+            .cw-cell input {
+                width: 100%;
+                height: 100%;
+                border: none;
+                background: transparent;
+                text-align: center;
+                font-family: "Outfit", sans-serif;
+                font-weight: 800;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                color: #1e293b;
+                outline: none;
+                padding: 0;
+            }
+            @media (min-width: 768px) {
+                .cw-cell input {
+                    font-size: 0.9rem;
+                }
+            }
+            .cw-cell.correct {
+                background: #f0fdf4;
+                border-color: #10b981;
+            }
+            .cw-cell.correct input {
+                color: #059669;
+            }
+            .clue-item {
+                padding: 8px 12px;
+                border-radius: 10px;
+                transition: all 0.2s;
+                cursor: pointer;
+            }
+            .clue-item:hover {
+                background: #f8fafc;
+                color: #10b981;
+            }
+            #cw-tooltip::after {
+                content: "";
+                position: absolute;
+                bottom: -8px;
+                left: var(--arrow-pos, 50%);
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-top: 8px solid rgba(15, 23, 42, 0.9);
+            }
+            #cw-tooltip.tooltip-below::after {
+                bottom: auto;
+                top: -8px;
+                border-top: none;
+                border-bottom: 8px solid rgba(15, 23, 42, 0.9);
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 4px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #e2e8f0;
+                border-radius: 10px;
+            }
+        </style>
 
-            countSelectors.forEach((btn) => {
-                (btn as HTMLElement).dataset.active = (
-                    parseInt((btn as HTMLElement).dataset.count!) ===
-                    currentLimit
-                ).toString();
-            });
+        <script>
+            import conceptosData from "../../public/conceptos.json";
 
-            const pool = [...conceptosData]
-                .map((c) => ({
-                    word: c.termino.toUpperCase().replace(/[^A-ZÁÉÍÓÚÑ]/g, ""),
-                    clue: c.definicion,
-                }))
-                .filter((w) => w.word.length >= 3 && w.word.length <= 12)
-                .sort(() => 0.5 - Math.random());
+            function runCrucigrama() {
+                const MAX_SIZE = 30;
+                const normalize = (s: string) =>
+                    s
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .toUpperCase();
+                let currentLimit = 10;
+                let grid: any[][] = [];
+                let words: any[] = [];
+                let startTime: number | null = null;
+                let timerInterval: any = null;
 
-            generateLayout(pool.slice(0, currentLimit));
-            render();
-        }
+                const gridE = document.getElementById("crossword-grid");
+                const acrossE = document.getElementById("clues-across");
+                const downE = document.getElementById("clues-down");
+                const resetB = document.getElementById("reset-crossword");
+                const timerE = document.getElementById("timer-badge-cw");
+                const modalE = document.getElementById("victory-modal-cw");
+                const finishTimeE = document.getElementById("finish-time-cw");
+                const closeModalB = document.getElementById("close-modal-cw");
+                const countSelectors = document.querySelectorAll(
+                    "#word-count-selector button",
+                );
+                const tooltipE = document.getElementById("cw-tooltip");
 
-        function generateLayout(pool: any[]) {
-            grid = Array(MAX_SIZE)
-                .fill(null)
-                .map(() => Array(MAX_SIZE).fill(null));
-            words = [];
-            if (pool.length === 0) return;
+                function init() {
+                    if (timerInterval) clearInterval(timerInterval);
+                    timerInterval = null;
+                    startTime = null;
+                    if (timerE) timerE.textContent = "00:00";
+                    if (gridE) gridE.innerHTML = "";
+                    if (gridE && tooltipE) gridE.appendChild(tooltipE);
+                    if (tooltipE) tooltipE.classList.add("opacity-0");
 
-            const first = pool[0];
-            const r = Math.floor(MAX_SIZE / 2);
-            const c = Math.floor((MAX_SIZE - first.word.length) / 2);
-            placeWord(first, r, c, "H", 1);
-
-            for (let i = 1; i < pool.length; i++) {
-                let bestMatch: any = null;
-                const newWord = pool[i].word;
-
-                for (let existing of words) {
-                    for (let j = 0; j < existing.word.length; j++) {
-                        for (let k = 0; k < newWord.length; k++) {
-                            if (existing.word[j] === newWord[k]) {
-                                const newDir = existing.dir === "H" ? "V" : "H";
-                                const newR =
-                                    existing.dir === "H"
-                                        ? existing.r - k
-                                        : existing.r + j;
-                                const newC =
-                                    existing.dir === "H"
-                                        ? existing.c + j
-                                        : existing.c - k;
-
-                                if (canPlace(newWord, newR, newC, newDir)) {
-                                    bestMatch = {
-                                        r: newR,
-                                        c: newC,
-                                        dir: newDir,
-                                    };
-                                    break;
-                                }
-                            }
-                        }
-                        if (bestMatch) break;
+                    if (modalE) {
+                        modalE.classList.add("pointer-events-none");
+                        modalE.classList.remove("opacity-100");
+                        modalE.querySelector("div")?.classList.add("scale-90");
                     }
-                    if (bestMatch) break;
+
+                    countSelectors.forEach((btn) => {
+                        (btn as HTMLElement).dataset.active = (
+                            parseInt((btn as HTMLElement).dataset.count!) ===
+                            currentLimit
+                        ).toString();
+                    });
+
+                    const pool = [...conceptosData]
+                        .map((c) => ({
+                            word: c.termino
+                                .toUpperCase()
+                                .replace(/[^A-ZÁÉÍÓÚÑ]/g, ""),
+                            clue: c.definicion,
+                        }))
+                        .filter(
+                            (w) => w.word.length >= 3 && w.word.length <= 15,
+                        )
+                        .sort(() => 0.5 - Math.random());
+
+                    let bestWords: any[] = [];
+                    for (let attempt = 0; attempt < 15; attempt++) {
+                        const batch = [...pool]
+                            .sort(() => 0.5 - Math.random())
+                            .slice(0, currentLimit);
+                        generateLayout(batch);
+                        if (words.length >= currentLimit) break;
+                        if (words.length > bestWords.length)
+                            bestWords = [...words];
+                    }
+                    if (words.length < currentLimit && bestWords.length > 0) {
+                        words = bestWords;
+                        reconstructGridFromWords();
+                    }
+
+                    render();
+                    checkWin();
                 }
 
-                if (bestMatch) {
-                    placeWord(
-                        pool[i],
-                        bestMatch.r,
-                        bestMatch.c,
-                        bestMatch.dir,
-                        i + 1,
+                function reconstructGridFromWords() {
+                    grid = Array(MAX_SIZE)
+                        .fill(null)
+                        .map(() => Array(MAX_SIZE).fill(null));
+                    const oldWords = [...words];
+                    words = [];
+                    oldWords.forEach((w) =>
+                        placeWord(w, w.r, w.c, w.dir, w.num),
                     );
                 }
-            }
-        }
 
-        function canPlace(word: string, r: number, c: number, dir: string) {
-            if (r < 1 || r >= MAX_SIZE - 1 || c < 1 || c >= MAX_SIZE - 1)
-                return false;
-            if (dir === "H" && c + word.length >= MAX_SIZE - 1) return false;
-            if (dir === "V" && r + word.length >= MAX_SIZE - 1) return false;
+                function generateLayout(pool: any[]) {
+                    grid = Array(MAX_SIZE)
+                        .fill(null)
+                        .map(() => Array(MAX_SIZE).fill(null));
+                    words = [];
+                    if (pool.length === 0) return;
 
-            for (let i = 0; i < word.length; i++) {
-                const currR = dir === "H" ? r : r + i;
-                const currC = dir === "H" ? c + i : c;
-                const existing = grid[currR][currC];
+                    const first = pool[0];
+                    const r = Math.floor(MAX_SIZE / 2);
+                    const c = Math.floor((MAX_SIZE - first.word.length) / 2);
+                    placeWord(first, r, c, "H", 1);
 
-                if (existing && existing.char !== word[i]) return false;
+                    for (let i = 1; i < pool.length; i++) {
+                        let bestMatch: any = null;
+                        const newWord = pool[i].word;
 
-                if (!existing) {
-                    if (dir === "H") {
-                        if (
-                            checkCell(currR - 1, currC) ||
-                            checkCell(currR + 1, currC)
-                        )
-                            return false;
-                        if (i === 0 && checkCell(currR, currC - 1))
-                            return false;
-                        if (
-                            i === word.length - 1 &&
-                            checkCell(currR, currC + 1)
-                        )
-                            return false;
-                    } else {
-                        if (
-                            checkCell(currR, currC - 1) ||
-                            checkCell(currR, currC + 1)
-                        )
-                            return false;
-                        if (i === 0 && checkCell(currR - 1, currC))
-                            return false;
-                        if (
-                            i === word.length - 1 &&
-                            checkCell(currR + 1, currC)
-                        )
-                            return false;
-                    }
-                }
-            }
-            return true;
-        }
+                        for (let existing of words) {
+                            for (let j = 0; j < existing.word.length; j++) {
+                                for (let k = 0; k < newWord.length; k++) {
+                                    if (existing.word[j] === newWord[k]) {
+                                        const newDir =
+                                            existing.dir === "H" ? "V" : "H";
+                                        const newR =
+                                            existing.dir === "H"
+                                                ? existing.r - k
+                                                : existing.r + j;
+                                        const newC =
+                                            existing.dir === "H"
+                                                ? existing.c + j
+                                                : existing.c - k;
 
-        function checkCell(r: number, c: number) {
-            if (r < 0 || r >= MAX_SIZE || c < 0 || c >= MAX_SIZE) return false;
-            return grid[r][c] !== null;
-        }
-
-        function placeWord(
-            p: any,
-            r: number,
-            c: number,
-            dir: string,
-            num: number,
-        ) {
-            for (let i = 0; i < p.word.length; i++) {
-                const currR = dir === "H" ? r : r + i;
-                const currC = dir === "H" ? c + i : c;
-                if (!grid[currR][currC]) {
-                    grid[currR][currC] = {
-                        char: p.word[i],
-                        num: i === 0 ? num : null,
-                        words: [num],
-                    };
-                } else {
-                    if (i === 0) grid[currR][currC].num = num;
-                    grid[currR][currC].words.push(num);
-                }
-            }
-            words.push({ ...p, r, c, dir, num });
-        }
-
-        function render() {
-            if (!gridE) return;
-            let minR = MAX_SIZE,
-                maxR = 0,
-                minC = MAX_SIZE,
-                maxC = 0;
-            grid.forEach((row, r) =>
-                row.forEach((cell, c) => {
-                    if (cell) {
-                        minR = Math.min(minR, r);
-                        maxR = Math.max(maxR, r);
-                        minC = Math.min(minC, c);
-                        maxC = Math.max(maxC, c);
-                    }
-                }),
-            );
-
-            const cols = maxC - minC + 3;
-            gridE.style.gridTemplateColumns = `repeat(${cols}, var(--cell-size))`;
-            gridE.style.gridTemplateRows = `repeat(${maxR - minR + 3}, var(--cell-size))`;
-            gridE.style.gridAutoRows = `var(--cell-size)`;
-
-            for (let r = minR - 1; r <= maxR + 1; r++) {
-                for (let c = minC - 1; c <= maxC + 1; c++) {
-                    const cellEl = document.createElement("div");
-                    cellEl.className = "cw-cell";
-                    const data =
-                        r >= 0 && r < MAX_SIZE && c >= 0 && c < MAX_SIZE
-                            ? grid[r][c]
-                            : null;
-
-                    if (data) {
-                        cellEl.classList.add("active");
-                        if (data.num) {
-                            const n = document.createElement("span");
-                            n.className = "num";
-                            n.textContent = data.num;
-                            cellEl.appendChild(n);
-                        }
-                        const input = document.createElement("input");
-                        input.maxLength = 1;
-                        input.dataset.r = r.toString();
-                        input.dataset.c = c.toString();
-
-                        input.onfocus = () => {
-                            if (!startTime) startTimer();
-                            cellEl.classList.add("focused");
-                            showTooltip(input, data);
-                        };
-                        input.onblur = () => {
-                            cellEl.classList.remove("focused");
-                            hideTooltip();
-                        };
-                        input.oninput = () => {
-                            if (input.value.toUpperCase() === data.char) {
-                                cellEl.classList.add("correct");
-                                checkWin();
-                                const wordIdx = data.words[0];
-                                const wordData = words.find(
-                                    (w) => w.num === wordIdx,
-                                );
-                                if (wordData) {
-                                    if (wordData.dir === "H")
-                                        moveInDirection(r, c, 0, 1);
-                                    else moveInDirection(r, c, 1, 0);
+                                        if (
+                                            canPlace(
+                                                newWord,
+                                                newR,
+                                                newC,
+                                                newDir,
+                                            )
+                                        ) {
+                                            bestMatch = {
+                                                r: newR,
+                                                c: newC,
+                                                dir: newDir,
+                                            };
+                                            break;
+                                        }
+                                    }
                                 }
-                            } else {
-                                cellEl.classList.remove("correct");
+                                if (bestMatch) break;
                             }
-                        };
-                        input.onkeydown = (e) => {
-                            if (e.key === "ArrowRight")
-                                moveInDirection(r, c, 0, 1);
-                            if (e.key === "ArrowLeft")
-                                moveInDirection(r, c, 0, -1);
-                            if (e.key === "ArrowDown")
-                                moveInDirection(r, c, 1, 0);
-                            if (e.key === "ArrowUp")
-                                moveInDirection(r, c, -1, 0);
-                        };
-                        cellEl.appendChild(input);
+                            if (bestMatch) break;
+                        }
+
+                        if (bestMatch) {
+                            placeWord(
+                                pool[i],
+                                bestMatch.r,
+                                bestMatch.c,
+                                bestMatch.dir,
+                                words.length + 1,
+                            );
+                        }
                     }
-                    gridE.appendChild(cellEl);
                 }
-            }
 
-            words.forEach((w) => {
-                const li = document.createElement("li");
-                li.className = "clue-item";
-                li.innerHTML = `<span class="font-black text-emerald-500 mr-2">${w.num}.</span> ${w.clue}`;
-                li.onclick = () => {
-                    const input = gridE.querySelector(
-                        `input[data-r="${w.r}"][data-c="${w.c}"]`,
+                function canPlace(
+                    word: string,
+                    r: number,
+                    c: number,
+                    dir: string,
+                ) {
+                    if (
+                        r < 1 ||
+                        r >= MAX_SIZE - 1 ||
+                        c < 1 ||
+                        c >= MAX_SIZE - 1
+                    )
+                        return false;
+                    if (dir === "H" && c + word.length >= MAX_SIZE - 1)
+                        return false;
+                    if (dir === "V" && r + word.length >= MAX_SIZE - 1)
+                        return false;
+
+                    // 1. Check BEFORE and AFTER the word in the same direction
+                    // These must be empty, ALWAYS.
+                    if (dir === "H") {
+                        if (checkCell(r, c - 1)) return false;
+                        if (checkCell(r, c + word.length)) return false;
+                    } else {
+                        if (checkCell(r - 1, c)) return false;
+                        if (checkCell(r + word.length, c)) return false;
+                    }
+
+                    for (let i = 0; i < word.length; i++) {
+                        const currR = dir === "H" ? r : r + i;
+                        const currC = dir === "H" ? c + i : c;
+                        const existing = grid[currR][currC];
+
+                        if (existing && existing.char !== word[i]) return false;
+
+                        if (!existing) {
+                            // If it's a new cell, we must check perpendicular neighbors
+                            // to avoid "sharing a wall" with a parallel word.
+                            if (dir === "H") {
+                                if (
+                                    checkCell(currR - 1, currC) ||
+                                    checkCell(currR + 1, currC)
+                                )
+                                    return false;
+                            } else {
+                                if (
+                                    checkCell(currR, currC - 1) ||
+                                    checkCell(currR, currC + 1)
+                                )
+                                    return false;
+                            }
+                        } else {
+                            // If it IS an intersection, we check that it doesn't create
+                            // an illegal 3-way or 4-way junction if we're not careful.
+                            // Standard crosswords allow junctions, but they must be
+                            // valid intersections of exactly two words.
+                            // The neighbors in the OTHER direction are already occupied
+                            // by the existing word. We don't need to check them.
+                        }
+                    }
+                    return true;
+                }
+
+                function checkCell(r: number, c: number) {
+                    if (r < 0 || r >= MAX_SIZE || c < 0 || c >= MAX_SIZE)
+                        return false;
+                    return grid[r][c] !== null;
+                }
+
+                function placeWord(
+                    p: any,
+                    r: number,
+                    c: number,
+                    dir: string,
+                    num: number,
+                ) {
+                    for (let i = 0; i < p.word.length; i++) {
+                        const currR = dir === "H" ? r : r + i;
+                        const currC = dir === "H" ? c + i : c;
+                        if (!grid[currR][currC]) {
+                            grid[currR][currC] = {
+                                char: p.word[i],
+                                num: i === 0 ? num : null,
+                                words: [num],
+                            };
+                        } else {
+                            if (i === 0) grid[currR][currC].num = num;
+                            grid[currR][currC].words.push(num);
+                        }
+                    }
+                    words.push({ ...p, r, c, dir, num });
+                }
+
+                function render() {
+                    if (!gridE) return;
+                    let minR = MAX_SIZE,
+                        maxR = 0,
+                        minC = MAX_SIZE,
+                        maxC = 0;
+                    grid.forEach((row, r) =>
+                        row.forEach((cell, c) => {
+                            if (cell) {
+                                minR = Math.min(minR, r);
+                                maxR = Math.max(maxR, r);
+                                minC = Math.min(minC, c);
+                                maxC = Math.max(maxC, c);
+                            }
+                        }),
+                    );
+
+                    const cols = maxC - minC + 3;
+                    const rows = maxR - minR + 3;
+                    gridE.style.gridTemplateColumns = `repeat(${cols}, var(--cell-size))`;
+                    gridE.style.gridTemplateRows = `repeat(${rows}, var(--cell-size))`;
+
+                    for (let r = minR - 1; r <= maxR + 1; r++) {
+                        for (let c = minC - 1; c <= maxC + 1; c++) {
+                            const data =
+                                r >= 0 && r < MAX_SIZE && c >= 0 && c < MAX_SIZE
+                                    ? grid[r][c]
+                                    : null;
+                            const cellEl = document.createElement("div");
+                            cellEl.className = "cw-cell";
+                            if (data) {
+                                cellEl.classList.add("active");
+                                if (data.num) {
+                                    const n = document.createElement("span");
+                                    n.className = "num";
+                                    n.textContent = data.num;
+                                    cellEl.appendChild(n);
+                                }
+                                const input = document.createElement("input");
+                                input.maxLength = 1;
+                                input.dataset.r = r.toString();
+                                input.dataset.c = c.toString();
+                                input.onfocus = () => {
+                                    if (!startTime) startTimer();
+                                    cellEl.classList.add("focused");
+                                    showTooltip(input, data);
+                                    highlightWord(data);
+                                };
+                                input.onblur = () => {
+                                    cellEl.classList.remove("focused");
+                                    hideTooltip();
+                                    clearHighlights();
+                                };
+                                input.oninput = () => {
+                                    if (
+                                        normalize(input.value) ===
+                                        normalize(data.char)
+                                    ) {
+                                        cellEl.classList.add("correct");
+                                        checkWin();
+                                        if (data.words.length > 0) {
+                                            const wData = words.find(
+                                                (w) => w.num === data.words[0],
+                                            );
+                                            if (wData)
+                                                moveInDirection(
+                                                    r,
+                                                    c,
+                                                    wData.dir === "H" ? 0 : 1,
+                                                    wData.dir === "H" ? 1 : 0,
+                                                );
+                                        }
+                                    } else {
+                                        cellEl.classList.remove("correct");
+                                        checkWin();
+                                    }
+                                };
+                                input.onkeydown = (e) => {
+                                    if (e.key === "ArrowRight")
+                                        moveInDirection(r, c, 0, 1);
+                                    if (e.key === "ArrowLeft")
+                                        moveInDirection(r, c, 0, -1);
+                                    if (e.key === "ArrowDown")
+                                        moveInDirection(r, c, 1, 0);
+                                    if (e.key === "ArrowUp")
+                                        moveInDirection(r, c, -1, 0);
+                                };
+                                cellEl.appendChild(input);
+                            }
+                            gridE.appendChild(cellEl);
+                        }
+                    }
+                }
+
+                function showTooltip(input: HTMLInputElement, data: any) {
+                    if (!tooltipE || !gridE) return;
+                    const wordIdx = data.words[0];
+                    const wordData = words.find((w) => w.num === wordIdx);
+                    if (!wordData) return;
+
+                    tooltipE.innerHTML = `
+                        <div class="mb-1 text-emerald-400 font-black uppercase text-[9px] tracking-widest">${wordData.dir === "H" ? "Horizontal" : "Vertical"} ${wordData.num}</div>
+                        <div class="leading-tight font-medium">${wordData.clue}</div>
+                    `;
+
+                    tooltipE.classList.remove("opacity-0");
+                    tooltipE.classList.add("opacity-100");
+
+                    // Find the first cell of this word to anchor the tooltip
+                    const firstInput = gridE.querySelector(
+                        `input[data-r="${wordData.r}"][data-c="${wordData.c}"]`,
                     ) as HTMLInputElement;
-                    input?.focus();
-                };
-                if (w.dir === "H") acrossE?.appendChild(li);
-                else downE?.appendChild(li);
-            });
-        }
+                    const targetEl = firstInput || input;
 
-        function showTooltip(input: HTMLInputElement, data: any) {
-            if (!tooltipE) return;
-            const wordIdx = data.words[0];
-            const wordData = words.find((w) => w.num === wordIdx);
-            if (!wordData) return;
+                    const cellRect = targetEl.getBoundingClientRect();
+                    const gridRect = gridE.getBoundingClientRect();
 
-            tooltipE.innerHTML = `
-                <div class="mb-1 text-slate-400 font-black uppercase text-[9px] tracking-widest">${wordData.dir === "H" ? "Horizontal" : "Vertical"} ${wordData.num}</div>
-                <div class="leading-tight">${wordData.clue}</div>
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-slate-900"></div>
-            `;
+                    // Initial position (centered above cell)
+                    let left =
+                        cellRect.left - gridRect.left + cellRect.width / 2;
+                    let top = cellRect.top - gridRect.top;
 
-            tooltipE.classList.remove("opacity-0");
-            tooltipE.classList.add("opacity-100");
+                    // Safety boundaries check (don't touch edges)
+                    const tooltipWidth = tooltipE.offsetWidth;
+                    const halfWidth = tooltipWidth / 2;
+                    const safetyMargin = 15;
 
-            const rect = input.getBoundingClientRect();
-            const gridRect = gridE?.getBoundingClientRect();
-            if (gridRect) {
-                tooltipE.style.left = `${rect.left - gridRect.left + rect.width / 2}px`;
-                tooltipE.style.top = `${rect.top - gridRect.top - 10}px`;
-                tooltipE.style.transform = "translate(-50%, -100%)";
-            }
-        }
+                    let arrowPos = 50;
 
-        function hideTooltip() {
-            tooltipE?.classList.remove("opacity-100");
-            tooltipE?.classList.add("opacity-0");
-        }
+                    if (left - halfWidth < safetyMargin) {
+                        const shift = safetyMargin - (left - halfWidth);
+                        left += shift;
+                        arrowPos = ((halfWidth - shift) / tooltipWidth) * 100;
+                    } else if (
+                        left + halfWidth >
+                        gridRect.width - safetyMargin
+                    ) {
+                        const shift =
+                            left + halfWidth - (gridRect.width - safetyMargin);
+                        left -= shift;
+                        arrowPos = ((halfWidth + shift) / tooltipWidth) * 100;
+                    }
 
-        function moveInDirection(r: number, c: number, dr: number, dc: number) {
-            const next = gridE?.querySelector(
-                `input[data-r="${r + dr}"][data-c="${c + dc}"]`,
-            ) as HTMLInputElement;
-            next?.focus();
-        }
+                    tooltipE.style.left = `${left}px`;
+                    tooltipE.style.top = `${top}px`;
+                    tooltipE.style.setProperty("--arrow-pos", `${arrowPos}%`);
 
-        function startTimer() {
-            if (timerInterval) return;
-            startTime = Date.now();
-            timerInterval = setInterval(() => {
-                if (startTime === null) return;
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const m = String(Math.floor(elapsed / 60)).padStart(2, "0");
-                const s = String(elapsed % 60).padStart(2, "0");
-                if (timerE) timerE.textContent = `${m}:${s}`;
-            }, 1000);
-        }
-
-        function checkWin() {
-            if (!gridE) return;
-            const total = gridE.querySelectorAll("input").length;
-            const correct = gridE.querySelectorAll(".cw-cell.correct").length;
-            if (total > 0 && total === correct) {
-                if (timerInterval) clearInterval(timerInterval);
-                if (finishTimeE && timerE)
-                    finishTimeE.textContent = timerE.textContent;
-                if (modalE) {
-                    modalE.classList.remove("pointer-events-none");
-                    modalE.classList.add("opacity-100");
-                    modalE.querySelector("div")?.classList.remove("scale-90");
+                    if (top < 100) {
+                        tooltipE.classList.add("tooltip-below");
+                        tooltipE.style.transform = "translate(-50%, 24px)";
+                        tooltipE.style.top = `${cellRect.bottom - gridRect.top}px`;
+                    } else {
+                        tooltipE.classList.remove("tooltip-below");
+                        tooltipE.style.transform =
+                            "translate(-50%, -100%) translateY(-24px)";
+                    }
                 }
-            }
-        }
 
-        countSelectors.forEach((btn) =>
-            btn.addEventListener("click", () => {
-                currentLimit = parseInt((btn as HTMLElement).dataset.count!);
+                function hideTooltip() {
+                    tooltipE?.classList.add("opacity-0");
+                    tooltipE?.classList.remove("opacity-100");
+                }
+
+                function highlightWord(data: any) {
+                    clearHighlights();
+                    const wordIdx = data.words[0];
+                    const wordData = words.find((w) => w.num === wordIdx);
+                    if (!wordData) return;
+
+                    for (let i = 0; i < wordData.word.length; i++) {
+                        const r =
+                            wordData.dir === "H" ? wordData.r : wordData.r + i;
+                        const c =
+                            wordData.dir === "H" ? wordData.c + i : wordData.c;
+                        const cell = gridE?.querySelector(
+                            `.cw-cell:has(input[data-r="${r}"][data-c="${c}"])`,
+                        );
+                        cell?.classList.add("word-highlight");
+                    }
+                }
+
+                function clearHighlights() {
+                    gridE
+                        ?.querySelectorAll(".word-highlight")
+                        .forEach((el) => el.classList.remove("word-highlight"));
+                }
+
+                function moveInDirection(
+                    r: number,
+                    c: number,
+                    dr: number,
+                    dc: number,
+                ) {
+                    const next = gridE?.querySelector(
+                        `input[data-r="${r + dr}"][data-c="${c + dc}"]`,
+                    ) as HTMLInputElement;
+                    next?.focus();
+                }
+
+                function startTimer() {
+                    if (timerInterval) return;
+                    startTime = Date.now();
+                    timerInterval = setInterval(() => {
+                        if (startTime === null) return;
+                        const elapsed = Math.floor(
+                            (Date.now() - startTime) / 1000,
+                        );
+                        const m = String(Math.floor(elapsed / 60)).padStart(
+                            2,
+                            "0",
+                        );
+                        const s = String(elapsed % 60).padStart(2, "0");
+                        if (timerE) timerE.textContent = `${m}:${s}`;
+                    }, 1000);
+                }
+
+                function checkWin() {
+                    if (!gridE) return;
+                    const inputs = gridE.querySelectorAll("input");
+                    const total = inputs.length;
+                    const correct =
+                        gridE.querySelectorAll(".cw-cell.correct").length;
+                    const badge = document.getElementById("score-badge-cw");
+                    if (badge) badge.textContent = `${correct} / ${total}`;
+                    if (total > 0 && total === correct) {
+                        if (timerInterval) clearInterval(timerInterval);
+                        if (finishTimeE && timerE)
+                            finishTimeE.textContent = timerE.textContent;
+                        if (modalE) {
+                            modalE.classList.remove("pointer-events-none");
+                            modalE.classList.add("opacity-100");
+                            modalE
+                                .querySelector("div")
+                                ?.classList.remove("scale-90");
+                        }
+                    }
+                }
+
+                countSelectors.forEach((btn) =>
+                    btn.addEventListener("click", () => {
+                        currentLimit = parseInt(
+                            (btn as HTMLElement).dataset.count!,
+                        );
+                        init();
+                    }),
+                );
+
+                if (resetB) resetB.onclick = init;
+                if (closeModalB) closeModalB.onclick = init;
                 init();
-            }),
-        );
-
-        if (resetB) resetB.onclick = init;
-        if (closeModalB) closeModalB.onclick = init;
-
-        init();
-    }
-
-    runCrucigrama();
-</script>
+            }
+            runCrucigrama();
+        </script>
+    </div>
+</div>

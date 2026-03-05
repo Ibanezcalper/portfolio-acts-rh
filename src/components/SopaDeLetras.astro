@@ -2,7 +2,10 @@
 import conceptosData from "../../public/conceptos.json";
 ---
 
-<div class="relative py-24 px-6 bg-slate-50 overflow-hidden" id="sopa-expert">
+<div
+    class="relative pt-16 pb-24 px-6 bg-slate-50 overflow-hidden"
+    id="sopa-expert"
+>
     <!-- Decorative Elements -->
     <div class="absolute top-0 left-0 w-full h-full -z-10 opacity-40">
         <div
@@ -16,7 +19,7 @@ import conceptosData from "../../public/conceptos.json";
     </div>
 
     <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col lg:flex-row gap-16 items-start">
+        <div class="flex flex-col lg:flex-row gap-16 items-center">
             <!-- Info & Words -->
             <div class="lg:w-1/3 sticky top-32">
                 <header class="mb-12">
@@ -82,8 +85,15 @@ import conceptosData from "../../public/conceptos.json";
                         >
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3" id="word-list-sopa">
-                        <!-- JS Populated -->
+                    <div
+                        class="mt-8 max-h-[300px] overflow-y-auto pr-4 custom-scrollbar"
+                    >
+                        <div
+                            class="grid grid-cols-2 lg:grid-cols-2 gap-x-6 gap-y-2"
+                            id="word-list-sopa"
+                        >
+                            <!-- JS Populated -->
+                        </div>
                     </div>
 
                     <button
@@ -146,8 +156,12 @@ import conceptosData from "../../public/conceptos.json";
                     <div class="overflow-x-auto pb-4 custom-scrollbar">
                         <div
                             id="grid-pnl-sopa"
-                            class="relative bg-white p-2 md:p-8 rounded-[2rem] md:rounded-[3rem] border-4 md:border-8 border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] grid gap-1 md:gap-2.5 touch-manipulation mx-auto w-fit"
+                            class="relative bg-white p-3 md:p-6 rounded-[2.5rem] md:rounded-[3.5rem] border-8 border-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] grid gap-0.5 touch-manipulation mx-auto w-fit"
                         >
+                            <svg
+                                id="highlights-svg-sopa"
+                                class="absolute inset-0 w-full h-full pointer-events-none z-0"
+                            ></svg>
                             <!-- JS populated -->
                         </div>
                     </div>
@@ -159,26 +173,26 @@ import conceptosData from "../../public/conceptos.json";
 
 <style is:global>
     .sopa-cell {
-        width: 32px;
-        height: 32px;
+        width: 26px;
+        height: 26px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 800;
-        font-size: 0.875rem;
-        color: #475569;
-        background: #f8fafc;
-        border-radius: 8px;
+        font-size: 0.75rem;
+        color: #334155;
+        background: transparent;
+        border-radius: 6px;
         cursor: pointer;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid transparent;
+        position: relative;
+        z-index: 10;
     }
     @media (min-width: 768px) {
         .sopa-cell {
-            width: 42px;
-            height: 42px;
-            font-size: 1.125rem;
-            border-radius: 12px;
+            width: 30px;
+            height: 30px;
+            font-size: 0.9rem;
         }
     }
     .sopa-cell:hover:not(.found) {
@@ -188,28 +202,21 @@ import conceptosData from "../../public/conceptos.json";
         z-index: 10;
     }
     .sopa-cell.selecting {
-        background: #2563eb !important;
-        color: white !important;
-        transform: scale(0.95);
+        background: rgba(37, 99, 235, 0.2);
+        color: #2563eb !important;
         border-radius: 50%;
     }
     .sopa-cell.found {
-        background: #f0fdf4 !important;
-        color: #10b981 !important;
-        pointer-events: none;
+        color: #1e293b !important;
     }
     .word-item {
-        padding: 8px 12px;
-        background: white;
-        border: 1px solid #f1f5f9;
-        border-radius: 12px;
-        font-size: 9px;
+        font-size: 10px;
         font-weight: 800;
-        color: #64748b;
-        text-align: center;
+        color: #94a3b8;
         transition: all 0.3s;
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        padding: 4px 0;
     }
     @media (min-width: 768px) {
         .word-item {
@@ -217,11 +224,9 @@ import conceptosData from "../../public/conceptos.json";
         }
     }
     .word-item.found {
-        background: #f0fdf4;
-        color: #10b981;
-        border-color: #bbf7d0;
+        color: #cbd5e1;
         text-decoration: line-through;
-        opacity: 0.6;
+        opacity: 0.5;
     }
 </style>
 
@@ -237,8 +242,18 @@ import conceptosData from "../../public/conceptos.json";
         let selecting = false;
         let selCells: { r: number; c: number }[] = [];
         let startC: { r: number; c: number } | null = null;
+        let wordColors: string[] = [
+            "rgba(252, 211, 77, 0.5)", // Yellow
+            "rgba(167, 243, 208, 0.6)", // Green
+            "rgba(147, 197, 253, 0.6)", // Blue
+            "rgba(196, 181, 253, 0.6)", // Purple
+            "rgba(249, 168, 212, 0.6)", // Pink
+            "rgba(253, 186, 116, 0.6)", // Orange
+        ];
+        let colorIdx = 0;
 
         const gridE = document.getElementById("grid-pnl-sopa");
+        const highlightsSVG = document.getElementById("highlights-svg-sopa");
         const wordListE = document.getElementById("word-list-sopa");
         const scoreE = document.getElementById("score-badge-sopa");
         const timerE = document.getElementById("timer-badge-sopa");
@@ -267,10 +282,16 @@ import conceptosData from "../../public/conceptos.json";
             timerInterval = null;
             startTime = null;
             if (timerE) timerE.textContent = "00:00";
-            if (gridE) gridE.innerHTML = "";
+            if (gridE) {
+                // Clear only the cells, keeping the SVG
+                gridE.querySelectorAll(".sopa-cell").forEach((c) => c.remove());
+                const hSVG = document.getElementById("highlights-svg-sopa");
+                if (hSVG) hSVG.innerHTML = "";
+            }
             if (wordListE) wordListE.innerHTML = "";
             found = [];
             words = [];
+            colorIdx = 0; // Reset colors on new game
             grid = Array(SIZE)
                 .fill("")
                 .map(() => Array(SIZE).fill(""));
@@ -295,8 +316,8 @@ import conceptosData from "../../public/conceptos.json";
                 if (words.length >= TARGET) break;
                 let placed = false;
                 let attempts = 0;
-                while (!placed && attempts < 150) {
-                    const dir = Math.floor(Math.random() * 4);
+                while (!placed && attempts < 200) {
+                    const dir = Math.floor(Math.random() * 8); // 0-7 directions
                     const r = Math.floor(Math.random() * SIZE);
                     const c = Math.floor(Math.random() * SIZE);
                     if (canPlace(word, r, c, dir)) {
@@ -307,6 +328,8 @@ import conceptosData from "../../public/conceptos.json";
                     attempts++;
                 }
             }
+
+            if (highlightsSVG) highlightsSVG.innerHTML = "";
 
             const alpha = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ";
             for (let r = 0; r < SIZE; r++) {
@@ -360,36 +383,30 @@ import conceptosData from "../../public/conceptos.json";
         }
 
         function canPlace(w: string, r: number, c: number, d: number) {
-            if (d === 0) {
-                if (c + w.length > SIZE) return false;
-                for (let i = 0; i < w.length; i++)
-                    if (grid[r][c + i] !== "" && grid[r][c + i] !== w[i])
-                        return false;
-            } else if (d === 1) {
-                if (r + w.length > SIZE) return false;
-                for (let i = 0; i < w.length; i++)
-                    if (grid[r + i][c] !== "" && grid[r + i][c] !== w[i])
-                        return false;
-            } else if (d === 2) {
-                if (c - w.length < -1) return false;
-                for (let i = 0; i < w.length; i++)
-                    if (grid[r][c - i] !== "" && grid[r][c - i] !== w[i])
-                        return false;
-            } else if (d === 3) {
-                if (r - w.length < -1) return false;
-                for (let i = 0; i < w.length; i++)
-                    if (grid[r - i][c] !== "" && grid[r - i][c] !== w[i])
-                        return false;
+            const dr = [0, 1, 0, -1, 1, 1, -1, -1][d];
+            const dc = [1, 0, -1, 0, 1, -1, 1, -1][d];
+
+            if (
+                r + dr * (w.length - 1) < 0 ||
+                r + dr * (w.length - 1) >= SIZE ||
+                c + dc * (w.length - 1) < 0 ||
+                c + dc * (w.length - 1) >= SIZE
+            )
+                return false;
+
+            for (let i = 0; i < w.length; i++) {
+                const nr = r + i * dr;
+                const nc = c + i * dc;
+                if (grid[nr][nc] !== "" && grid[nr][nc] !== w[i]) return false;
             }
             return true;
         }
 
         function place(w: string, r: number, c: number, d: number) {
+            const dr = [0, 1, 0, -1, 1, 1, -1, -1][d];
+            const dc = [1, 0, -1, 0, 1, -1, 1, -1][d];
             for (let i = 0; i < w.length; i++) {
-                if (d === 0) grid[r][c + i] = w[i];
-                else if (d === 1) grid[r + i][c] = w[i];
-                else if (d === 2) grid[r][c - i] = w[i];
-                else if (d === 3) grid[r - i][c] = w[i];
+                grid[r + i * dr][c + i * dc] = w[i];
             }
         }
 
@@ -406,20 +423,23 @@ import conceptosData from "../../public/conceptos.json";
             const dr = r - startC.r;
             const dc = c - startC.c;
 
-            if (dr !== 0 && dc !== 0) return;
+            const absDr = Math.abs(dr);
+            const absDc = Math.abs(dc);
+
+            if (dr !== 0 && dc !== 0 && absDr !== absDc) return;
 
             gridE
                 ?.querySelectorAll(".sopa-cell")
                 .forEach((cell) => cell.classList.remove("selecting"));
 
             selCells = [];
-            const steps = Math.max(Math.abs(dr), Math.abs(dc));
+            const steps = Math.max(absDr, absDc);
             const sr = dr === 0 ? 0 : dr / steps;
             const sc = dc === 0 ? 0 : dc / steps;
 
             for (let i = 0; i <= steps; i++) {
-                const currR = startC.r + i * sr;
-                const currC = startC.c + i * sc;
+                const currR = Math.round(startC.r + i * sr);
+                const currC = Math.round(startC.c + i * sc);
                 selCells.push({ r: currR, c: currC });
                 const cellEl = gridE?.querySelector(
                     `[data-r="${currR}"][data-c="${currC}"]`,
@@ -452,7 +472,46 @@ import conceptosData from "../../public/conceptos.json";
         }
 
         function markFound(word: string) {
-            selCells.forEach((cell) => {
+            const color = wordColors[colorIdx % wordColors.length];
+            colorIdx++;
+
+            if (selCells.length > 0) {
+                const startCell = gridE?.querySelector(
+                    `[data-r="${selCells[0].r}"][data-c="${selCells[0].c}"]`,
+                ) as HTMLElement;
+                const endCell = gridE?.querySelector(
+                    `[data-r="${selCells[selCells.length - 1].r}"][data-c="${selCells[selCells.length - 1].c}"]`,
+                ) as HTMLElement;
+
+                if (startCell && endCell && highlightsSVG) {
+                    const svgRect = highlightsSVG.getBoundingClientRect();
+                    const sRect = startCell.getBoundingClientRect();
+                    const eRect = endCell.getBoundingClientRect();
+
+                    const x1 = sRect.left - svgRect.left + sRect.width / 2;
+                    const y1 = sRect.top - svgRect.top + sRect.height / 2;
+                    const x2 = eRect.left - svgRect.left + eRect.width / 2;
+                    const y2 = eRect.top - svgRect.top + eRect.height / 2;
+
+                    const line = document.createElementNS(
+                        "http://www.w3.org/2000/svg",
+                        "line",
+                    );
+                    line.setAttribute("x1", x1.toString());
+                    line.setAttribute("y1", y1.toString());
+                    line.setAttribute("x2", x2.toString());
+                    line.setAttribute("y2", y2.toString());
+                    line.setAttribute("stroke", color);
+                    line.setAttribute(
+                        "stroke-width",
+                        (sRect.width * 0.85).toString(),
+                    );
+                    line.setAttribute("stroke-linecap", "round");
+                    highlightsSVG.appendChild(line);
+                }
+            }
+
+            selCells.forEach((cell: { r: number; c: number }) => {
                 const cellEl = gridE?.querySelector(
                     `[data-r="${cell.r}"][data-c="${cell.c}"]`,
                 );

@@ -3,258 +3,204 @@ import conceptosData from "../../public/conceptos.json";
 ---
 
 <div
-    class="relative py-24 px-6 bg-white overflow-hidden"
+    class="relative pt-16 pb-24 px-6 bg-slate-900 overflow-hidden"
     id="match-expert"
     data-conceptos={JSON.stringify(conceptosData)}
 >
-    <!-- Decorative Mesh -->
-    <div
-        class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"
-    >
+    <!-- Dark Game Background -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:40px_40px]"
+        >
+        </div>
     </div>
 
     <div class="max-w-6xl mx-auto relative z-10">
-        <header class="text-center mb-16 md:mb-20">
+        <header class="text-center mb-12">
             <span
-                class="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4"
+                class="inline-block px-4 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4"
             >
-                Test de Correlación
+                Desafío de Correspondencia
             </span>
             <h2
-                class="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-6 text-balance leading-none"
+                class="text-4xl md:text-5xl font-black text-white tracking-tighter mb-4 leading-none"
             >
-                Relación <span class="italic text-indigo-600">Conceptual</span>
+                Une las <span class="italic text-blue-500">Parejas</span>
             </h2>
             <p
-                class="text-slate-500 font-medium max-w-xl mx-auto leading-relaxed text-pretty text-sm md:text-base"
+                class="text-slate-400 font-medium max-w-xl mx-auto text-sm md:text-base"
             >
-                Conecta cada término con su definición. Puedes <strong
-                    >arrastrar</strong
-                > los elementos o <strong>hacer clic</strong> en un término y luego
-                en su definición.
+                Arrastra los términos superiores a su definición correspondiente
+                o haz clic para seleccionar.
             </p>
         </header>
 
-        <div
-            class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 lg:gap-20 relative select-none touch-manipulation"
-            id="match-arena-match"
-        >
-            <!-- Terms -->
-            <div class="space-y-4 md:space-y-6" id="terms-col-match">
-                <h3
-                    class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 md:mb-10 pl-4 border-l-4 border-indigo-500"
-                >
-                    Término Estratégico
-                </h3>
-                <!-- JS Populated -->
-            </div>
-
-            <!-- Definitions -->
-            <div class="space-y-4 md:space-y-6" id="defs-col-match">
-                <h3
-                    class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 md:mb-10 pl-4 border-l-4 border-emerald-500"
-                >
-                    Definición Operativa
-                </h3>
-                <!-- JS Populated -->
-            </div>
-        </div>
-
-        <div class="mt-16 md:mt-20 flex flex-col items-center gap-6">
-            <div class="flex items-center gap-4">
-                <span
-                    id="timer-badge-match"
-                    class="px-4 py-2 bg-slate-900 text-white rounded-xl font-mono font-bold tracking-tighter text-lg"
-                    >00:00</span
-                >
-                <span
-                    id="match-score-match"
-                    class="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-black text-lg"
-                    >0/5</span
-                >
-            </div>
-        </div>
-    </div>
-
-    <div class="flex justify-center mt-12">
-        <button
-            id="reset-match"
-            class="px-10 py-5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-[2rem] font-black text-xs md:text-sm transition-all active:scale-95 group flex items-center gap-4 border border-slate-200"
-        >
-            <svg
-                class="w-4 h-4 group-hover:rotate-180 transition-transform duration-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        <!-- Terms Dock (Top Bar) -->
+        <div class="mb-12">
+            <div
+                id="terms-dock"
+                class="flex flex-wrap justify-center gap-3 p-6 bg-slate-800/50 rounded-[2.5rem] border border-white/5 min-h-[100px] shadow-inner"
             >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2.5"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                ></path>
-            </svg>
-            REINICIAR DESAFÍO
-        </button>
+                <!-- JS Populated Draggable Terms -->
+            </div>
+        </div>
+
+        <!-- Matching Board -->
+        <div
+            id="matching-board"
+            class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4"
+        >
+            <!-- JS Populated: [Slot] [Definition] -->
+        </div>
+
+        <div class="mt-16 flex flex-col items-center gap-8">
+            <div
+                class="flex items-center gap-4 bg-slate-800/80 p-2 rounded-2xl border border-white/10 shadow-xl"
+            >
+                <div
+                    class="px-6 py-2 bg-slate-900 rounded-xl font-mono text-xl font-bold text-blue-400"
+                    id="timer-match"
+                >
+                    00:00
+                </div>
+                <button
+                    id="submit-match"
+                    class="px-10 py-3 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl transition-all shadow-lg shadow-blue-900/40 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    ENVIAR RESPUESTAS
+                </button>
+                <button
+                    id="reset-match"
+                    class="p-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-all active:rotate-180"
+                    title="Reiniciar"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        ><path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        ></path></svg
+                    >
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Victory Modal Overlay -->
+<!-- Victory/Result Modal -->
 <div
-    id="victory-modal-match"
-    class="fixed inset-0 z-[200] bg-slate-900/40 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500"
+    id="result-modal-match"
+    class="fixed inset-0 z-[200] bg-slate-950/80 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500"
 >
     <div
-        class="bg-white p-12 rounded-[2.5rem] shadow-2xl text-center transform scale-90 transition-transform duration-500 max-w-sm mx-auto"
+        class="bg-white p-10 rounded-[3rem] shadow-2xl text-center max-w-sm mx-auto transform scale-90 transition-all duration-500"
     >
         <div
-            class="w-24 h-24 bg-indigo-100/50 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl animate-bounce"
+            id="result-icon-match"
+            class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl"
         >
-            🎯
+            🏆
         </div>
-        <h4 class="text-3xl font-black text-slate-900 mb-4 tracking-tighter">
+        <h4
+            id="result-title-match"
+            class="text-3xl font-black text-slate-900 mb-2"
+        >
             ¡EXCELENTE!
         </h4>
-        <p class="text-slate-500 font-medium mb-8">
-            Has correlacionado todos los términos en <span
-                id="finish-time-match"
-                class="text-indigo-600 font-bold">00:00</span
-            >.
+        <p id="result-msg-match" class="text-slate-500 font-medium mb-8">
+            Has logrado unir todas las parejas correctamente.
         </p>
         <button
             id="close-modal-match"
-            class="w-full py-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black text-sm transition-all shadow-xl shadow-indigo-900/20"
-            >CONTINUAR APRENDIENDO</button
+            class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition-all shadow-xl shadow-blue-900/20"
+            >CONTINUAR</button
         >
     </div>
 </div>
 
 <style is:global>
-    .match-item {
-        background: white;
-        border: 2px solid #f1f5f9;
-        padding: 1rem;
-        border-radius: 1.25rem;
+    .match-card {
+        padding: 10px 18px;
+        background: #1e293b;
+        border: 2px solid #334155;
+        border-radius: 14px;
+        color: white;
+        font-weight: 800;
+        font-size: 0.85rem;
         cursor: grab;
-        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        font-weight: 700;
-        color: #1e293b;
-        position: relative;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 4rem;
-        font-size: 0.8rem;
-        text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         user-select: none;
-        touch-action: manipulation;
+        touch-action: none;
+        box-shadow: 0 4px 0 #0f172a;
+        text-transform: uppercase;
     }
-    @media (min-width: 768px) {
-        .match-item {
-            padding: 1.25rem 2rem;
-            min-height: 5.5rem;
-            font-size: 0.95rem;
-            border-radius: 1.5rem;
-        }
+    .match-card:hover {
+        background: #334155;
+        transform: translateY(-2px);
     }
-    .match-item:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
-    }
-    .match-item:active {
+    .match-card.dragging {
+        opacity: 0.4;
         cursor: grabbing;
     }
-    .match-item:hover:not(.matched):not(.dragging) {
-        border-color: #6366f1;
-        background: #f8fafc;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    .match-card.selected {
+        background: #3b82f6 !important;
+        border-color: #60a5fa !important;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        transform: scale(1.05);
     }
-    .match-item.selected {
-        border-color: #6366f1;
-        background: #eef2ff;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
-        transform: scale(1.02);
-    }
-    .match-item.matched {
-        background: #f0fdf4 !important;
-        border-color: #10b981 !important;
-        color: #065f46 !important;
-        cursor: default;
-        opacity: 0.7;
-        pointer-events: none;
-        transform: none !important;
-        box-shadow: none !important;
-    }
-
-    .drop-zone {
-        border: 2px dashed #e2e8f0;
-        background: #f8fafc;
-        padding: 1rem;
-        border-radius: 1.25rem;
-        min-height: 5.5rem;
+    .match-card.placed {
+        width: 100%;
+        height: 100%;
+        margin: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: #64748b;
-        transition: all 0.3s;
-        position: relative;
-        cursor: pointer;
-        touch-action: manipulation;
-    }
-    @media (min-width: 768px) {
-        .drop-zone {
-            padding: 1.25rem;
-            min-height: 7rem;
-            font-size: 0.875rem;
-            border-radius: 1.5rem;
-        }
-    }
-    .drop-zone:hover:not(.matched) {
-        border-color: #10b981;
-        background: #f0fdf4;
-    }
-    .drop-zone.drag-over {
-        border-color: #6366f1;
-        background: #eef2ff;
-        color: #6366f1;
-    }
-    .drop-zone.matched {
-        border-style: solid;
-        border-color: #10b981;
-        background: #f0fdf4;
-        color: #065f46;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
-        cursor: default;
+        box-shadow: none;
+        border: none;
+        background: transparent;
     }
 
-    .dragging {
-        opacity: 0.5;
-        transform: scale(0.95);
-        z-index: 100;
-        pointer-events: none;
+    .match-slot {
+        width: 140px;
+        height: 54px;
+        background: rgba(15, 23, 42, 0.4);
+        border: 2px dashed #475569;
+        border-radius: 14px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
     }
-    @keyframes shake {
-        0%,
-        100% {
-            transform: translateX(0);
-        }
-        25% {
-            transform: translateX(-5px);
-        }
-        75% {
-            transform: translateX(5px);
-        }
+    .match-slot.over {
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
     }
-    .error-shake {
-        animation: shake 0.3s ease-in-out;
+    .match-slot.filled {
+        border-style: solid;
+        border-color: #334155;
+        background: #1e293b;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .match-slot.correct {
+        border-color: #10b981 !important;
+        background: #064e3b !important;
+    }
+    .match-slot.wrong {
         border-color: #ef4444 !important;
+        background: #451a1a !important;
+    }
+
+    .match-def {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #94a3b8;
+        line-height: 1.4;
     }
 </style>
 
@@ -262,208 +208,278 @@ import conceptosData from "../../public/conceptos.json";
     (function () {
         const container = document.getElementById("match-expert");
         if (!container) return;
-        const conceptosData = JSON.parse(
+        const poolData = JSON.parse(
             container.getAttribute("data-conceptos") || "[]",
         );
 
-        const TOTAL = 5;
-        let score = 0;
-        let startTime: number | null = null;
-        let timerInterval: any = null;
-        let selectedTermId: string | null = null;
+        const dock = document.getElementById("terms-dock");
+        const board = document.getElementById("matching-board");
+        const submitBtn = document.getElementById(
+            "submit-match",
+        ) as HTMLButtonElement;
+        const resetBtn = document.getElementById("reset-match");
+        const timerE = document.getElementById("timer-match");
+        const modal = document.getElementById("result-modal-match");
 
-        const tCol = document.getElementById("terms-col-match");
-        const dCol = document.getElementById("defs-col-match");
-        const resetB = document.getElementById("reset-match");
-        const scB = document.getElementById("match-score-match");
-        const timerE = document.getElementById("timer-badge-match");
-        const modalE = document.getElementById("victory-modal-match");
-        const finishTimeE = document.getElementById("finish-time-match");
-        const closeModalB = document.getElementById("close-modal-match");
+        let startTime: number | null = null;
+        let timerInt: any = null;
+        let selectedId: string | null = null;
+        const TOTAL = 6;
+        let activePairs: any[] = [];
 
         function init() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = null;
-            startTime = null;
-            selectedTermId = null;
+            clearInterval(timerInt);
             if (timerE) timerE.textContent = "00:00";
-            score = 0;
-            if (scB) scB.textContent = `0/${TOTAL}`;
+            startTime = null;
+            selectedId = null;
+            if (dock) dock.innerHTML = "";
+            if (board) board.innerHTML = "";
+            if (submitBtn) submitBtn.disabled = false;
+            hideModal();
 
-            if (tCol)
-                tCol.querySelectorAll(".match-item").forEach((e) => e.remove());
-            if (dCol)
-                dCol.querySelectorAll(".drop-zone").forEach((e) => e.remove());
-
-            if (modalE) {
-                modalE.classList.add("pointer-events-none");
-                modalE.classList.remove("opacity-100");
-                modalE.querySelector("div")?.classList.add("scale-90");
-            }
-
-            // True randomness
-            const pool = [...conceptosData]
+            activePairs = [...poolData]
                 .sort(() => 0.5 - Math.random())
                 .slice(0, TOTAL);
 
-            const terms = [...pool].sort(() => 0.5 - Math.random());
-            const defs = [...pool].sort(() => 0.5 - Math.random());
+            const shuffledTerms = [...activePairs].sort(
+                () => 0.5 - Math.random(),
+            );
+            const shuffledDefs = [...activePairs].sort(
+                () => 0.5 - Math.random(),
+            );
 
-            terms.forEach((t) => {
-                const el = document.createElement("div");
-                el.className = "match-item shadow-sm";
-                el.textContent = t.termino;
-                el.draggable = true;
-                el.dataset.id = t.termino;
+            shuffledTerms.forEach((item) => {
+                const card = document.createElement("div");
+                card.className = "match-card";
+                card.textContent = item.termino;
+                card.draggable = true;
+                card.dataset.id = item.termino;
 
-                el.addEventListener("dragstart", (e) => {
-                    if (!startTime) startTimer();
-                    el.classList.add("dragging");
-                    e.dataTransfer?.setData("text/plain", t.termino);
+                card.addEventListener("dragstart", (e) => {
+                    startTimer();
+                    card.classList.add("dragging");
+                    e.dataTransfer?.setData("text/plain", item.termino);
                 });
-                el.addEventListener("dragend", () =>
-                    el.classList.remove("dragging"),
+                card.addEventListener("dragend", () =>
+                    card.classList.remove("dragging"),
                 );
 
-                el.addEventListener("click", () => {
-                    if (!startTime) startTimer();
-                    if (el.classList.contains("matched")) return;
-
+                card.addEventListener("click", () => {
+                    startTimer();
                     document
-                        .querySelectorAll(".match-item")
-                        .forEach((m) => m.classList.remove("selected"));
-                    if (selectedTermId === t.termino) {
-                        selectedTermId = null;
+                        .querySelectorAll(".match-card")
+                        .forEach((c) => c.classList.remove("selected"));
+                    if (selectedId === item.termino) {
+                        selectedId = null;
                     } else {
-                        selectedTermId = t.termino;
-                        el.classList.add("selected");
+                        selectedId = item.termino;
+                        card.classList.add("selected");
                     }
                 });
 
-                // Touch
-                el.addEventListener("touchstart", () => {
-                    if (!startTime) startTimer();
-                });
-                el.addEventListener("touchmove", (e) => {
-                    el.classList.add("dragging");
-                    const touch = e.touches[0];
-                    const target = document.elementFromPoint(
-                        touch.clientX,
-                        touch.clientY,
-                    );
-                    document
-                        .querySelectorAll(".drop-zone")
-                        .forEach((dz) => dz.classList.remove("drag-over"));
-                    const dropZone = target?.closest(".drop-zone");
-                    if (dropZone) dropZone.classList.add("drag-over");
-                });
-                el.addEventListener("touchend", (e) => {
-                    el.classList.remove("dragging");
-                    const touch = e.changedTouches[0];
-                    const target = document.elementFromPoint(
-                        touch.clientX,
-                        touch.clientY,
-                    );
-                    const dropZone = target?.closest(
-                        ".drop-zone",
-                    ) as HTMLElement;
-                    document
-                        .querySelectorAll(".drop-zone")
-                        .forEach((dz) => dz.classList.remove("drag-over"));
-                    if (dropZone) handleDrop(t.termino, dropZone);
-                });
-
-                tCol?.appendChild(el);
+                dock?.appendChild(card);
             });
 
-            defs.forEach((d) => {
-                const el = document.createElement("div");
-                el.className = "drop-zone";
-                el.textContent = d.definicion;
-                el.dataset.id = d.termino;
+            shuffledDefs.forEach((item) => {
+                const row = document.createElement("div");
+                row.className =
+                    "flex items-center gap-6 p-4 rounded-2xl transition-all hover:bg-white/5";
 
-                el.addEventListener("dragover", (e) => {
+                const slot = document.createElement("div");
+                slot.className = "match-slot";
+                slot.dataset.targetId = item.termino;
+
+                slot.addEventListener("dragover", (e) => {
                     e.preventDefault();
-                    el.classList.add("drag-over");
+                    slot.classList.add("over");
                 });
-                el.addEventListener("dragleave", () =>
-                    el.classList.remove("drag-over"),
+                slot.addEventListener("dragleave", () =>
+                    slot.classList.remove("over"),
                 );
-                el.addEventListener("drop", (e: DragEvent) => {
+                slot.addEventListener("drop", (e) => {
+                    if (slot.classList.contains("locked")) return;
                     e.preventDefault();
-                    el.classList.remove("drag-over");
-                    const termId = e.dataTransfer?.getData("text/plain");
-                    if (termId) handleDrop(termId, el);
+                    slot.classList.remove("over");
+                    const id = e.dataTransfer?.getData("text/plain");
+                    if (id) placeTerm(id, slot);
                 });
 
-                el.addEventListener("click", () => {
-                    if (selectedTermId) {
-                        handleDrop(selectedTermId, el);
-                        selectedTermId = null;
+                slot.addEventListener("click", () => {
+                    if (slot.classList.contains("locked")) return;
+                    if (selectedId) {
+                        placeTerm(selectedId, slot);
+                        selectedId = null;
                         document
-                            .querySelectorAll(".match-item")
-                            .forEach((m) => m.classList.remove("selected"));
+                            .querySelectorAll(".match-card")
+                            .forEach((c) => c.classList.remove("selected"));
                     }
                 });
 
-                dCol?.appendChild(el);
+                const defText = document.createElement("div");
+                defText.className = "match-def";
+                defText.textContent = item.definicion;
+
+                row.appendChild(slot);
+                row.appendChild(defText);
+                board?.appendChild(row);
             });
         }
 
-        function handleDrop(termId: string, dropZone: HTMLElement) {
-            if (dropZone.classList.contains("matched")) return;
-
-            if (termId === dropZone.dataset.id) {
-                const originalDef = dropZone.textContent;
-                dropZone.classList.add("matched");
-                dropZone.innerHTML = `<div class="flex flex-col items-center">
-                    <span class="text-indigo-600 font-black text-lg mb-2">${termId}</span>
-                    <span class="text-[11px] leading-tight font-medium text-slate-500 max-w-[95%]">${originalDef}</span>
-                </div>`;
-
-                const termEl = tCol?.querySelector(
-                    `[data-id="${termId}"]`,
-                ) as HTMLElement;
-                if (termEl) {
-                    termEl.classList.add("matched");
-                    termEl.classList.remove("selected");
-                }
-
-                score++;
-                if (scB) scB.textContent = `${score}/${TOTAL}`;
-                if (score === TOTAL) win();
-            } else {
-                dropZone.classList.add("error-shake");
-                setTimeout(() => dropZone.classList.remove("error-shake"), 500);
+        function placeTerm(id: string, slot: HTMLElement) {
+            if (slot.classList.contains("locked")) return;
+            // If slot already has one, return it to dock
+            const existing = slot.querySelector(".match-card");
+            if (existing) {
+                const oldId = (existing as HTMLElement).dataset.id;
+                returnToDock(oldId!);
             }
+
+            // Remove from dock or other slot
+            const original = container?.querySelector(
+                `.match-card[data-id="${id}"]`,
+            );
+            original?.remove();
+
+            // Create placed card
+            const placed = document.createElement("div");
+            placed.className = "match-card placed";
+            placed.textContent = id;
+            placed.dataset.id = id;
+
+            slot.innerHTML = "";
+            slot.appendChild(placed);
+            slot.classList.add("filled");
+        }
+
+        function returnToDock(id: string) {
+            const card = document.createElement("div");
+            card.className = "match-card";
+            card.textContent = id;
+            card.draggable = true;
+            card.dataset.id = id;
+            card.addEventListener("dragstart", (e) => {
+                card.classList.add("dragging");
+                e.dataTransfer?.setData("text/plain", id);
+            });
+            card.addEventListener("dragend", () =>
+                card.classList.remove("dragging"),
+            );
+            card.addEventListener("click", () => {
+                document
+                    .querySelectorAll(".match-card")
+                    .forEach((c) => c.classList.remove("selected"));
+                selectedId = id;
+                card.classList.add("selected");
+            });
+            dock?.appendChild(card);
         }
 
         function startTimer() {
-            if (timerInterval) return;
+            if (startTime) return;
             startTime = Date.now();
-            timerInterval = setInterval(() => {
-                if (startTime === null) return;
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            timerInt = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime!) / 1000);
                 const m = String(Math.floor(elapsed / 60)).padStart(2, "0");
                 const s = String(elapsed % 60).padStart(2, "0");
                 if (timerE) timerE.textContent = `${m}:${s}`;
             }, 1000);
         }
 
-        function win() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = null;
-            if (finishTimeE && timerE)
-                finishTimeE.textContent = timerE.textContent;
-            if (modalE) {
-                modalE.classList.remove("pointer-events-none");
-                modalE.classList.add("opacity-100");
-                modalE.querySelector("div")?.classList.remove("scale-90");
+        function checkAnswers() {
+            const slots = board?.querySelectorAll(".match-slot");
+            let correctCount = 0;
+            let allFilled = true;
+
+            slots?.forEach((slot) => {
+                const s = slot as HTMLElement;
+                const placed = s.querySelector(".match-card") as HTMLElement;
+                if (!placed) {
+                    allFilled = false;
+                    return;
+                }
+
+                if (placed.dataset.id === s.dataset.targetId) {
+                    s.classList.add("correct", "locked");
+                    placed.classList.add("locked");
+                    correctCount++;
+                } else {
+                    s.classList.add("wrong");
+                    // Auto-return wrong ones after a short delay
+                    setTimeout(() => {
+                        const id = placed.dataset.id;
+                        if (id) returnToDock(id);
+                        s.innerHTML = "";
+                        s.classList.remove("filled", "wrong");
+                    }, 1500);
+                }
+            });
+
+            if (!allFilled) {
+                alert("Por favor, une todas las parejas antes de enviar.");
+                slots?.forEach((s) => {
+                    if (!s.classList.contains("locked")) {
+                        s.classList.remove("correct", "wrong");
+                    }
+                });
+                return;
+            }
+
+            if (correctCount === TOTAL) {
+                clearInterval(timerInt);
+                showModal(true);
+            } else {
+                showModal(false, correctCount);
             }
         }
 
-        if (resetB) resetB.addEventListener("click", init);
-        if (closeModalB) closeModalB.addEventListener("click", init);
+        function showModal(isVictory: boolean, correct: number = 0) {
+            if (!modal) return;
+            const title = document.getElementById("result-title-match");
+            const msg = document.getElementById("result-msg-match");
+            const icon = document.getElementById("result-icon-match");
+            const btn = document.getElementById(
+                "close-modal-match",
+            ) as HTMLElement;
+
+            if (isVictory) {
+                if (title) title.textContent = "¡ESPECTACULAR!";
+                if (msg)
+                    msg.textContent =
+                        "Has dominado todos los conceptos perfectamente.";
+                if (icon) icon.textContent = "🏆";
+                if (btn) btn.textContent = "CONTINUAR APRENDIENDO";
+            } else {
+                if (title) title.textContent = "¡CASI LO TIENES!";
+                if (msg)
+                    msg.textContent = `Has acertado ${correct} de ${TOTAL}. Hemos devuelto los errores a la lista para que lo intentes de nuevo.`;
+                if (icon) icon.textContent = "🧐";
+                if (btn) btn.textContent = "REINTENTAR ERRORES";
+            }
+
+            modal.classList.remove("pointer-events-none", "opacity-0");
+            modal.classList.add("opacity-100");
+            modal.querySelector("div")?.classList.remove("scale-90");
+        }
+
+        function hideModal() {
+            if (!modal) return;
+            modal.classList.add("pointer-events-none", "opacity-0");
+            modal.classList.remove("opacity-100");
+            modal.querySelector("div")?.classList.add("scale-90");
+        }
+
+        submitBtn?.addEventListener("click", checkAnswers);
+        resetBtn?.addEventListener("click", init);
+        document
+            .getElementById("close-modal-match")
+            ?.addEventListener("click", () => {
+                const btn = document.getElementById("close-modal-match");
+                if (btn?.textContent === "REINTENTAR ERRORES") {
+                    hideModal();
+                } else {
+                    init();
+                }
+            });
 
         init();
     })();
