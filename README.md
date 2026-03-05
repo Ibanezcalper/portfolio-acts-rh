@@ -2,6 +2,8 @@
 
 **Nexos Humanos** es una plataforma interactiva diseñada para dominar los pilares de la gestión de talento y la organización moderna. A través de una experiencia gamificada, los usuarios pueden explorar, practicar y reforzar conceptos técnicos mediante dinámicas visuales de alto impacto.
 
+🔗 **Link del Proyecto**: [https://Ibanezcalper.github.io/portfolio-acts-rh/](https://Ibanezcalper.github.io/portfolio-acts-rh/)
+
 ---
 
 ## Características Principales
