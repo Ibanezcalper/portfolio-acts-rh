@@ -6,7 +6,7 @@
 
 ## Características Principales
 
-### 📖 Glosario Interactivo 3D
+### Glosario Interactivo 3D
 Un sistema de tarjetas de estudio (flashcards) integradas en un glosario dinámico.
 - **Flip Cards**: Toca cualquier término para ver su definición técnica con una transición 3D premium.
 - **Búsqueda en Tiempo Real**: Filtra entre decenas de conceptos instantáneamente.
