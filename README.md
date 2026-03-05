@@ -1,10 +1,10 @@
-# 🧠 Nexos Humanos: Ecosistema de Aprendizaje Estratégico
+# Nexos Humanos: Ecosistema de Aprendizaje Estratégico
 
 **Nexos Humanos** es una plataforma interactiva diseñada para dominar los pilares de la gestión de talento y la organización moderna. A través de una experiencia gamificada, los usuarios pueden explorar, practicar y reforzar conceptos técnicos mediante dinámicas visuales de alto impacto.
 
 ---
 
-## 🚀 Características Principales
+## Características Principales
 
 ### 📖 Glosario Interactivo 3D
 Un sistema de tarjetas de estudio (flashcards) integradas en un glosario dinámico.
@@ -12,19 +12,19 @@ Un sistema de tarjetas de estudio (flashcards) integradas en un glosario dinámi
 - **Búsqueda en Tiempo Real**: Filtra entre decenas de conceptos instantáneamente.
 - **Organización por Módulos**: Navega por categorías específicas de aprendizaje.
 
-### 🧩 Crucigramas Inteligentes
+### Crucigramas Inteligentes
 Desafíos léxicos con una lógica de usuario optimizada:
 - **Anclaje de Pistas**: Los pop-ups de pistas permanecen fijos sobre el número de cada palabra para una lectura cómoda.
 - **Validación Flexible**: El sistema reconoce respuestas correctas ignorando acentos (A = Á), facilitando la fluidez del juego.
 - **Posicionamiento Smart**: Los pop-ups detectan los bordes de la pantalla y se ajustan (auto-flip) para no obstruir la visión.
 
-### 🔍 Sopa de Letras y Match (Relación)
+### Sopa de Letras y Match (Relación)
 - **Sopa de Letras**: Generación dinámica de cuadrículas con selección táctil suave.
 - **Match de Conceptos**: Arrastra y vincula términos con sus definiciones en una interfaz minimalista y limpia.
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 La plataforma está construida con tecnologías web de vanguardia para garantizar velocidad y una experiencia de usuario fluida:
 
@@ -35,7 +35,7 @@ La plataforma está construida con tecnologías web de vanguardia para garantiza
 
 ---
 
-## 💻 Instalación y Uso
+## Instalación y Uso
 
 Si deseas ejecutar este proyecto localmente:
 
@@ -55,7 +55,7 @@ Si deseas ejecutar este proyecto localmente:
 
 ---
 
-## ✒️ Créditos y Autoría
+## Créditos y Autoría
 
 Este ecosistema ha sido diseñado y desarrollado por:
 
